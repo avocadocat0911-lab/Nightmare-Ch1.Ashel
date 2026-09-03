@@ -32,32 +32,40 @@
             aspect-ratio: 3 / 4;
             position: relative;
             overflow: hidden;
-        }
 
-        /* 배경 */
-        .game-screen::before {
-            content: "";
-            position: absolute;
-            inset: -15px;
-
+            /* 원래 배경 */
             background-image: url("background.jpg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+        }
+
+        /* 블러 레이어 */
+        .blur-layer {
+            position: absolute;
+            inset: 0;
+
+            background: inherit;
+            background-size: cover;
+            background-position: center;
 
             filter: blur(10px);
-            transition: filter 0.8s ease;
+            transform: scale(1.05);
+
+            transition: opacity 1s ease;
+            z-index: 1;
         }
 
-        /* PLAY 후 블러 제거 */
-        .game-screen.started::before {
-            filter: blur(0);
+        /* 시작하면 블러 제거 */
+        .game-screen.started .blur-layer {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* 중앙 PLAY 버튼 */
+        /* PLAY 버튼 */
         #playButton {
             position: absolute;
-            z-index: 10;
+            z-index: 2;
 
             top: 50%;
             left: 50%;
@@ -66,7 +74,7 @@
             width: 180px;
             height: 60px;
 
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.8);
             color: white;
 
             border: 2px solid white;
@@ -76,6 +84,13 @@
             font-weight: bold;
 
             cursor: pointer;
+        }
+
+        /* 시작하면 버튼 사라짐 */
+        .game-screen.started #playButton {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
         /* 모바일 */
@@ -93,12 +108,16 @@
 
     <div class="game-screen" id="gameScreen">
 
+        <!-- 블러 처리 -->
+        <div class="blur-layer"></div>
+
+        <!-- 중앙 PLAY -->
         <button id="playButton">PLAY</button>
 
     </div>
 
     <!-- BGM -->
-    <audio id="bgm" src="bgm_clean.mp3" loop preload="auto"></audio>
+    <audio id="bgm" src="bgm_clean.mp3" autoplay loop></audio>
 
     <script>
         const gameScreen = document.getElementById("gameScreen");
@@ -107,22 +126,29 @@
 
         bgm.volume = 0.3;
 
-        playButton.addEventListener("click", function () {
+        /*
+         * 사이트에 들어오면 BGM 자동재생 시도
+         */
+        bgm.play().catch(() => {
+            console.log("브라우저가 자동재생을 막았습니다.");
+        });
 
-            bgm.currentTime = 0;
+        /*
+         * PLAY 버튼
+         * 음악은 끊지 않고 블러만 제거
+         */
+        playButton.addEventListener("click", () => {
 
-            bgm.play().then(() => {
+            gameScreen.classList.add("started");
 
-                gameScreen.classList.add("started");
-
-                playButton.style.display = "none";
-
-            }).catch((error) => {
-
-                console.log("BGM 재생 실패:", error);
-
-            });
-
+            /*
+             * 자동재생이 막혔다면
+             * PLAY 클릭을 계기로 다시 재생 시도
+             */
+            if (bgm.paused) {
+                bgm.currentTime = 0;
+                bgm.play();
+            }
         });
     </script>
 
