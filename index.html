@@ -26,6 +26,7 @@
             overflow: hidden;
         }
 
+        /* 게임 화면 */
         .game-screen {
             height: 100vh;
             aspect-ratio: 3 / 4;
@@ -36,21 +37,21 @@
             background-repeat: no-repeat;
 
             position: relative;
+
+            /* 처음에는 블러 */
+            filter: blur(8px);
+            transition: filter 0.8s ease;
         }
 
-        @media (max-width: 600px) {
-            .game-screen {
-                width: 100vw;
-                height: 100dvh;
-                aspect-ratio: auto;
-                background-size: cover;
-            }
+        /* 게임 시작 후 블러 제거 */
+        .game-screen.started {
+            filter: blur(0);
         }
 
-        /* BGM 버튼 */
+        /* 중앙 버튼 */
         #playButton {
             position: absolute;
-            z-index: 9999;
+            z-index: 10;
 
             left: 50%;
             top: 50%;
@@ -59,21 +60,30 @@
             width: 180px;
             height: 60px;
 
-            background: black;
+            background: rgba(0, 0, 0, 0.8);
             color: white;
 
             border: 2px solid white;
-            border-radius: 5px;
+            border-radius: 4px;
 
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
+        }
+
+        /* 모바일 */
+        @media (max-width: 600px) {
+            .game-screen {
+                width: 100vw;
+                height: 100dvh;
+                aspect-ratio: auto;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="game-screen">
+    <div class="game-screen" id="gameScreen">
 
         <button id="playButton" type="button">
             ▶ PLAY
@@ -85,21 +95,28 @@
     <audio id="bgm" src="bgm_clean.mp3" loop preload="auto"></audio>
 
     <script>
-        const button = document.getElementById("playButton");
+        const gameScreen = document.getElementById("gameScreen");
+        const playButton = document.getElementById("playButton");
         const bgm = document.getElementById("bgm");
 
         bgm.volume = 0.3;
 
-        button.addEventListener("click", function () {
+        playButton.addEventListener("click", function () {
 
-            bgm.play()
-                .then(function () {
-                    button.textContent = "♪ PLAYING";
-                })
-                .catch(function (error) {
-                    console.log("BGM 재생 실패:", error);
-                    button.textContent = "BGM ERROR";
-                });
+            // 음악을 처음부터 시작
+            bgm.currentTime = 0;
+
+            bgm.play().then(function () {
+
+                // 블러 제거
+                gameScreen.classList.add("started");
+
+                // 버튼 제거
+                playButton.style.display = "none";
+
+            }).catch(function(error) {
+                console.log("BGM 재생 실패:", error);
+            });
 
         });
     </script>
