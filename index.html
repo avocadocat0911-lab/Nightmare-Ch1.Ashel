@@ -38,7 +38,6 @@
             position: relative;
         }
 
-        /* 모바일 */
         @media (max-width: 600px) {
             .game-screen {
                 width: 100vw;
@@ -48,19 +47,25 @@
             }
         }
 
-        /* BGM 플레이 버튼 */
+        /* BGM 버튼 */
         #playButton {
             position: absolute;
+            z-index: 9999;
+
             left: 50%;
-            bottom: 40px;
-            transform: translateX(-50%);
+            top: 50%;
+            transform: translate(-50%, -50%);
 
-            padding: 12px 28px;
-            font-size: 16px;
+            width: 180px;
+            height: 60px;
 
-            background: rgba(0, 0, 0, 0.8);
+            background: black;
             color: white;
-            border: 1px solid white;
+
+            border: 2px solid white;
+            border-radius: 5px;
+
+            font-size: 18px;
             cursor: pointer;
         }
     </style>
@@ -70,23 +75,32 @@
 
     <div class="game-screen">
 
-        <button id="playButton">▶ BGM 재생</button>
+        <button id="playButton" type="button">
+            ▶ PLAY
+        </button>
 
     </div>
 
     <!-- BGM -->
-    <audio id="bgm" src="bgm_clean.mp3" loop></audio>
+    <audio id="bgm" src="bgm_clean.mp3" loop preload="auto"></audio>
 
     <script>
+        const button = document.getElementById("playButton");
         const bgm = document.getElementById("bgm");
-        const playButton = document.getElementById("playButton");
 
         bgm.volume = 0.3;
 
-        playButton.addEventListener("click", function () {
-            bgm.play();
+        button.addEventListener("click", function () {
 
-            playButton.textContent = "♪ BGM 재생 중";
+            bgm.play()
+                .then(function () {
+                    button.textContent = "♪ PLAYING";
+                })
+                .catch(function (error) {
+                    console.log("BGM 재생 실패:", error);
+                    button.textContent = "BGM ERROR";
+                });
+
         });
     </script>
 
