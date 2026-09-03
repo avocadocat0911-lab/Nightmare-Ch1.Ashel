@@ -54,11 +54,16 @@
 
     <div class="game-screen"></div>
     
-    <audio id="bgm" src="倉庫の静寂.mp3" autoplay loop></audio>
+<audio id="bgm" src="倉庫の静寂.mp3" loop></audio>
 
 <script>
     const bgm = document.getElementById("bgm");
     bgm.volume = 0.3;
+
+    document.addEventListener("click", () => {
+        bgm.play();
+    }, { once: true });
+
 </script>
     
 </body>
