@@ -26,7 +26,6 @@
             overflow: hidden;
         }
 
-        /* 게임 화면 */
         .game-screen {
             height: 100vh;
             aspect-ratio: 3 / 4;
@@ -36,7 +35,7 @@
             background-position: center;
             background-repeat: no-repeat;
 
-            cursor: pointer;
+            position: relative;
         }
 
         /* 모바일 */
@@ -45,38 +44,51 @@
                 width: 100vw;
                 height: 100dvh;
                 aspect-ratio: auto;
-
                 background-size: cover;
             }
+        }
+
+        /* BGM 플레이 버튼 */
+        #playButton {
+            position: absolute;
+            left: 50%;
+            bottom: 40px;
+            transform: translateX(-50%);
+
+            padding: 12px 28px;
+            font-size: 16px;
+
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: 1px solid white;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="game-screen" id="game"></div>
+    <div class="game-screen">
+
+        <button id="playButton">▶ BGM 재생</button>
+
+    </div>
 
     <!-- BGM -->
-    <audio id="bgm" src="bgm_clean.mp3" autoplay muted loop></audio>
+    <audio id="bgm" src="bgm_clean.mp3" loop></audio>
 
     <script>
         const bgm = document.getElementById("bgm");
-        const game = document.getElementById("game");
+        const playButton = document.getElementById("playButton");
 
-        // BGM 볼륨
         bgm.volume = 0.3;
 
-        // 페이지에 들어오면 일단 자동재생 시도
-        bgm.play().catch(() => {});
-
-        // 화면을 클릭하면 음소거 해제 + 음악 재생
-        game.addEventListener("click", () => {
-            bgm.muted = false;
-            bgm.volume = 0.3;
+        playButton.addEventListener("click", function () {
             bgm.play();
+
+            playButton.textContent = "♪ BGM 재생 중";
         });
     </script>
 
 </body>
-</html>
 </html>
