@@ -35,6 +35,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+
+            cursor: pointer;
         }
 
         /* 모바일 */
@@ -52,10 +54,29 @@
 
 <body>
 
-    <div class="game-screen"></div>
+    <div class="game-screen" id="game"></div>
+
+    <!-- BGM -->
+    <audio id="bgm" src="bgm_clean.mp3" autoplay muted loop></audio>
+
+    <script>
+        const bgm = document.getElementById("bgm");
+        const game = document.getElementById("game");
+
+        // BGM 볼륨
+        bgm.volume = 0.3;
+
+        // 페이지에 들어오면 일단 자동재생 시도
+        bgm.play().catch(() => {});
+
+        // 화면을 클릭하면 음소거 해제 + 음악 재생
+        game.addEventListener("click", () => {
+            bgm.muted = false;
+            bgm.volume = 0.3;
+            bgm.play();
+        });
+    </script>
 
 </body>
 </html>
-    
-</body>
 </html>
