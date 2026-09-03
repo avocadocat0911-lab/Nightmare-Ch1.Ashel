@@ -8,153 +8,217 @@
 
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             height: 100%;
+            background: #000;
         }
 
         body {
-            background: black;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
         }
 
-        /* 게임 화면 */
-        .game-screen {
+        /* =========================
+           게임 화면
+        ========================= */
+
+        #game {
+            position: relative;
+
+            width: auto;
             height: 100vh;
+
             aspect-ratio: 3 / 4;
 
-            position: relative;
             overflow: hidden;
 
-            background-image: url("background.jpeg");
+            background-image: url("./background.jpeg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        /* 처음에 배경을 흐리게 만드는 막 */
-        .blur-overlay {
-            position: absolute;
-            inset: -15px;
 
-            background-image: url("background.jpeg");
+        /* =========================
+           처음에 배경을 흐리게 하는 부분
+        ========================= */
+
+        #blur {
+            position: absolute;
+
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+
+            background-image: url("./background.jpeg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
 
-            filter: blur(10px);
-            transform: scale(1.03);
+            filter: blur(12px);
 
-            z-index: 2;
+            z-index: 1;
 
-            transition: opacity 1s ease;
+            transition: opacity 0.8s ease;
         }
 
-        /* PLAY 버튼 */
-        #playButton {
+
+        /* =========================
+           PLAY 버튼
+        ========================= */
+
+        #play {
             position: absolute;
 
-            left: 50%;
             top: 50%;
+            left: 50%;
 
             transform: translate(-50%, -50%);
 
-            padding: 14px 40px;
+            z-index: 10;
+
+            width: 150px;
+            height: 55px;
 
             background: rgba(0, 0, 0, 0.85);
+
+            border: 1px solid white;
+
             color: white;
 
-            border: 1px solid rgba(255, 255, 255, 0.8);
-
             font-size: 18px;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
 
             cursor: pointer;
-
-            z-index: 10;
         }
 
-        #playButton:hover {
+        #play:hover {
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* 게임 시작 후 */
-        .game-screen.started .blur-overlay {
+
+        /* =========================
+           게임 시작
+        ========================= */
+
+        #game.started #blur {
             opacity: 0;
             pointer-events: none;
         }
 
-        .game-screen.started #playButton {
+        #game.started #play {
             opacity: 0;
             pointer-events: none;
         }
 
-        /* 모바일 */
+
+        /* =========================
+           모바일
+        ========================= */
+
         @media (max-width: 600px) {
-            .game-screen {
+
+            #game {
                 width: 100vw;
                 height: 100dvh;
+
                 aspect-ratio: auto;
             }
+
         }
+
     </style>
 </head>
 
+
 <body>
 
-    <div class="game-screen" id="gameScreen">
+
+    <!-- 게임 화면 -->
+
+    <div id="game">
 
         <!-- 흐린 배경 -->
-        <div class="blur-overlay"></div>
+        <div id="blur"></div>
 
         <!-- PLAY 버튼 -->
-        <button id="playButton">PLAY</button>
+        <button id="play">PLAY</button>
 
     </div>
 
 
-    <!-- BGM -->
-    <audio id="bgm" src="bgm_clean.mp3" autoplay loop></audio>
+
+    <!-- =========================
+         BGM
+    ========================= -->
+
+    <audio
+        id="bgm"
+        src="./bgm_clean.mp3"
+        autoplay
+        loop
+        preload="auto">
+    </audio>
+
 
 
     <script>
-        const gameScreen = document.getElementById("gameScreen");
-        const playButton = document.getElementById("playButton");
+
+        const game = document.getElementById("game");
+        const play = document.getElementById("play");
         const bgm = document.getElementById("bgm");
 
-        // BGM 볼륨
+
+        /* BGM 볼륨 */
+
         bgm.volume = 0.3;
 
-        // 사이트에 들어오자마자 자동재생 시도
+
+        /* =========================
+           사이트 들어오자마자 BGM 재생 시도
+        ========================= */
+
         bgm.play().catch(() => {
-            // 브라우저가 자동재생을 막은 경우
-            console.log("자동재생이 차단되었습니다.");
+            console.log("브라우저가 자동재생을 막았습니다.");
         });
 
 
-        // PLAY 버튼
-        playButton.addEventListener("click", function () {
+        /* =========================
+           PLAY 버튼
+        ========================= */
 
-            // 블러 제거
-            gameScreen.classList.add("started");
+        play.addEventListener("click", () => {
 
-            // 자동재생이 막혀 있었다면 여기서 재생
+            /* 배경 흐림 제거 */
+
+            game.classList.add("started");
+
+
+            /* 자동재생이 막혔으면
+               PLAY를 눌렀을 때 재생 */
+
             if (bgm.paused) {
+
                 bgm.play().catch(() => {
                     console.log("BGM 재생 실패");
                 });
+
             }
 
         });
+
     </script>
+
 
 </body>
 </html>
