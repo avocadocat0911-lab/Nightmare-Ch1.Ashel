@@ -2,18 +2,57 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Nightmare</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* 게임 화면 */
+        .game-screen {
+            height: 100vh;
+            aspect-ratio: 3 / 4;
+
+            background-image: url("background.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* 모바일 */
+        @media (max-width: 600px) {
+            .game-screen {
+                width: 100vw;
+                height: 100dvh;
+                aspect-ratio: auto;
+
+                background-size: cover;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Nightmare</h1>
-
-    <p>나의 첫 번째 웹사이트</p>
-
-    <button onclick="alert('안녕!')">
-        클릭해봐
-    </button>
+    <div class="game-screen"></div>
 
 </body>
 </html>
