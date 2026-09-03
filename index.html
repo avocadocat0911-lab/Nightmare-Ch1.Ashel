@@ -74,6 +74,30 @@
 
 
         /* =========================
+           화면 가장자리 검은 비네트
+        ========================= */
+
+        #game::after {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 5;
+
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0, 0, 0, 0) 40%,
+                rgba(0, 0, 0, 0.2) 58%,
+                rgba(0, 0, 0, 0.5) 78%,
+                rgba(0, 0, 0, 0.85) 100%
+            );
+        }
+
+
+        /* =========================
            PLAY 버튼
         ========================= */
 
@@ -100,6 +124,8 @@
             letter-spacing: 4px;
 
             cursor: pointer;
+
+            transition: opacity 0.8s ease;
         }
 
         #play:hover {
@@ -113,11 +139,13 @@
 
         #game.started #blur {
             opacity: 0;
+
             pointer-events: none;
         }
 
         #game.started #play {
             opacity: 0;
+
             pointer-events: none;
         }
 
@@ -148,7 +176,7 @@
 
     <div id="game">
 
-        <!-- 흐린 배경 -->
+        <!-- 처음에 흐린 배경 -->
         <div id="blur"></div>
 
         <!-- PLAY 버튼 -->
@@ -185,7 +213,7 @@
 
 
         /* =========================
-           사이트 들어오자마자 BGM 재생 시도
+           사이트 입장 시 BGM 자동재생 시도
         ========================= */
 
         bgm.play().catch(() => {
@@ -199,13 +227,13 @@
 
         play.addEventListener("click", () => {
 
-            /* 배경 흐림 제거 */
+            /* 흐림 제거 */
 
             game.classList.add("started");
 
 
-            /* 자동재생이 막혔으면
-               PLAY를 눌렀을 때 재생 */
+            /* 자동재생이 막혀 있었다면
+               PLAY를 눌렀을 때 BGM 재생 */
 
             if (bgm.paused) {
 
