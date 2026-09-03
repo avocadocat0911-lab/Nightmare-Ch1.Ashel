@@ -30,67 +30,71 @@
         .game-screen {
             height: 100vh;
             aspect-ratio: 3 / 4;
+
             position: relative;
             overflow: hidden;
 
-            /* 원래 배경 */
-            background-image: url("background.jpg");
+            background-image: url("background.jpeg");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        /* 블러 레이어 */
-        .blur-layer {
+        /* 처음에 배경을 흐리게 만드는 막 */
+        .blur-overlay {
             position: absolute;
-            inset: 0;
+            inset: -15px;
 
-            background: inherit;
+            background-image: url("background.jpeg");
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
 
             filter: blur(10px);
-            transform: scale(1.05);
+            transform: scale(1.03);
+
+            z-index: 2;
 
             transition: opacity 1s ease;
-            z-index: 1;
-        }
-
-        /* 시작하면 블러 제거 */
-        .game-screen.started .blur-layer {
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* PLAY 버튼 */
         #playButton {
             position: absolute;
-            z-index: 2;
 
-            top: 50%;
             left: 50%;
+            top: 50%;
+
             transform: translate(-50%, -50%);
 
-            width: 180px;
-            height: 60px;
+            padding: 14px 40px;
 
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
 
-            border: 2px solid white;
-            border-radius: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.8);
 
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 3px;
 
             cursor: pointer;
+
+            z-index: 10;
         }
 
-        /* 시작하면 버튼 사라짐 */
+        #playButton:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 게임 시작 후 */
+        .game-screen.started .blur-overlay {
+            opacity: 0;
+            pointer-events: none;
+        }
+
         .game-screen.started #playButton {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
         }
 
         /* 모바일 */
@@ -108,47 +112,47 @@
 
     <div class="game-screen" id="gameScreen">
 
-        <!-- 블러 처리 -->
-        <div class="blur-layer"></div>
+        <!-- 흐린 배경 -->
+        <div class="blur-overlay"></div>
 
-        <!-- 중앙 PLAY -->
+        <!-- PLAY 버튼 -->
         <button id="playButton">PLAY</button>
 
     </div>
 
+
     <!-- BGM -->
     <audio id="bgm" src="bgm_clean.mp3" autoplay loop></audio>
+
 
     <script>
         const gameScreen = document.getElementById("gameScreen");
         const playButton = document.getElementById("playButton");
         const bgm = document.getElementById("bgm");
 
+        // BGM 볼륨
         bgm.volume = 0.3;
 
-        /*
-         * 사이트에 들어오면 BGM 자동재생 시도
-         */
+        // 사이트에 들어오자마자 자동재생 시도
         bgm.play().catch(() => {
-            console.log("브라우저가 자동재생을 막았습니다.");
+            // 브라우저가 자동재생을 막은 경우
+            console.log("자동재생이 차단되었습니다.");
         });
 
-        /*
-         * PLAY 버튼
-         * 음악은 끊지 않고 블러만 제거
-         */
-        playButton.addEventListener("click", () => {
 
+        // PLAY 버튼
+        playButton.addEventListener("click", function () {
+
+            // 블러 제거
             gameScreen.classList.add("started");
 
-            /*
-             * 자동재생이 막혔다면
-             * PLAY 클릭을 계기로 다시 재생 시도
-             */
+            // 자동재생이 막혀 있었다면 여기서 재생
             if (bgm.paused) {
-                bgm.currentTime = 0;
-                bgm.play();
+                bgm.play().catch(() => {
+                    console.log("BGM 재생 실패");
+                });
             }
+
         });
     </script>
 
