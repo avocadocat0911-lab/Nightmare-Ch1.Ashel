@@ -134,17 +134,17 @@
 
 
         /* =========================
-           하단 BGM 바
+           하단 음악 바
         ========================= */
 
         #musicBar {
             position: absolute;
 
-            left: 18px;
-            right: 18px;
-            bottom: 18px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
 
-            height: 38px;
+            height: 42px;
 
             display: flex;
             align-items: center;
@@ -152,16 +152,22 @@
 
             padding: 0 10px 0 14px;
 
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.8);
 
-            border: 1px solid rgba(255, 255, 255, 0.25);
-
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
 
             z-index: 20;
 
-            color: white;
+            color: #ffffff;
+
+            /* 시작할 때 흐리게 */
+            filter: blur(6px);
+
+            opacity: 0.75;
+
+            transition:
+                filter 0.8s ease,
+                opacity 0.8s ease;
         }
 
 
@@ -170,6 +176,10 @@
         ========================= */
 
         #songTitle {
+            display: block;
+
+            color: #ffffff;
+
             font-size: 12px;
 
             white-space: nowrap;
@@ -178,7 +188,7 @@
 
             letter-spacing: 0.5px;
 
-            color: #ffffff;
+            min-width: 0;
         }
 
 
@@ -187,12 +197,17 @@
         ========================= */
 
         #musicButton {
-            width: 28px;
-            height: 28px;
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            width: 30px;
+            height: 30px;
 
             flex-shrink: 0;
 
-            margin-left: 12px;
+            margin-left: 10px;
 
             border: none;
 
@@ -200,13 +215,9 @@
 
             color: #ffffff;
 
-            font-size: 17px;
+            font-size: 18px;
 
             cursor: pointer;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         #musicButton:hover {
@@ -226,6 +237,12 @@
         #game.started #play {
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* 음악바도 PLAY 후 선명하게 */
+        #game.started #musicBar {
+            filter: blur(0);
+            opacity: 1;
         }
 
 
@@ -281,11 +298,14 @@
 
         <div id="musicBar">
 
-            <div id="songTitle">
+            <span id="songTitle">
                 倉庫の静寂-𝐀𝐬𝐡𝐞𝐥 𝐓𝐡𝐞𝐦𝐞 𝐬𝐨𝐧𝐠
-            </div>
+            </span>
 
-            <button id="musicButton" aria-label="BGM 끄기">
+            <button
+                id="musicButton"
+                type="button"
+                aria-label="BGM 끄기">
                 🔊
             </button>
 
@@ -335,10 +355,11 @@
 
         play.addEventListener("click", () => {
 
-            /* 흐린 배경 제거 */
+            /* 배경 흐림 제거 */
             game.classList.add("started");
 
-            /* 자동재생이 막혀 있었다면
+
+            /* 자동재생이 막혔다면
                PLAY를 눌렀을 때 BGM 재생 */
 
             if (bgm.paused) {
@@ -364,15 +385,9 @@
                     console.log("BGM 재생 실패");
                 });
 
-                musicButton.textContent = "🔊";
-                musicButton.setAttribute("aria-label", "BGM 끄기");
-
             } else {
 
                 bgm.pause();
-
-                musicButton.textContent = "🔇";
-                musicButton.setAttribute("aria-label", "BGM 켜기");
 
             }
 
@@ -380,15 +395,18 @@
 
 
         /* =========================
-           BGM 상태에 따른 아이콘
+           음악 상태에 따라 아이콘 변경
         ========================= */
 
         bgm.addEventListener("play", () => {
             musicButton.textContent = "🔊";
+            musicButton.setAttribute("aria-label", "BGM 끄기");
         });
+
 
         bgm.addEventListener("pause", () => {
             musicButton.textContent = "🔇";
+            musicButton.setAttribute("aria-label", "BGM 켜기");
         });
 
     </script>
