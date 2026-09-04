@@ -73,9 +73,9 @@
 
             opacity: 1;
 
-            transition: opacity 0.8s ease;
-
             pointer-events: none;
+
+            transition: opacity 0.8s ease;
         }
 
 
@@ -88,7 +88,6 @@
             inset: 0;
 
             z-index: 5;
-
             pointer-events: none;
 
             background: radial-gradient(
@@ -139,15 +138,13 @@
             margin-bottom: 2px;
 
             filter: none;
-
             opacity: 1;
+
+            pointer-events: none;
 
             transform-origin: center center;
 
             animation: gentleFloat 4s ease-in-out infinite;
-
-            /* 아이콘이 클릭을 가로채지 않게 */
-            pointer-events: none;
         }
 
 
@@ -183,8 +180,6 @@
 
             width: 115px;
             height: 38px;
-
-            flex-shrink: 0;
 
             padding: 0;
 
@@ -236,7 +231,6 @@
             color: #ffffff;
 
             filter: blur(7px);
-
             opacity: 0.7;
 
             transition:
@@ -257,9 +251,7 @@
             font-size: 12px;
 
             white-space: nowrap;
-
             overflow: hidden;
-
             text-overflow: ellipsis;
 
             letter-spacing: 0.5px;
@@ -291,9 +283,7 @@
             cursor: pointer;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
         }
 
@@ -308,7 +298,6 @@
 
         #game.started #blur {
             opacity: 0;
-            pointer-events: none;
         }
 
         #game.started #playArea {
@@ -366,22 +355,14 @@
 
     <div id="game">
 
-
-        <!-- =========================
-             시작할 때 배경 블러
-        ========================= -->
-
+        <!-- 시작할 때 배경 블러 -->
         <div id="blur"></div>
 
-
         <!-- 비네트 -->
-
         <div id="vignette"></div>
 
 
-        <!-- =========================
-             PLAY 영역
-        ========================= -->
+        <!-- PLAY 영역 -->
 
         <div id="playArea">
 
@@ -392,16 +373,16 @@
                 alt="">
 
             <!-- PLAY 버튼 -->
-            <button id="play" type="button">
+            <button
+                id="play"
+                type="button">
                 PLAY
             </button>
 
         </div>
 
 
-        <!-- =========================
-             하단 음악바
-        ========================= -->
+        <!-- 하단 음악바 -->
 
         <div id="musicBar">
 
@@ -442,19 +423,21 @@
         const musicButton = document.getElementById("musicButton");
 
 
-        /* =========================
-           BGM 볼륨
-        ========================= */
+        /* BGM 볼륨 */
 
         bgm.volume = 0.3;
 
 
         /* =========================
-           사이트 입장 시 자동재생
+           사이트에 들어오자마자 재생 시도
         ========================= */
 
-        bgm.play().catch(() => {
-            console.log("자동재생이 차단되었습니다.");
+        window.addEventListener("load", () => {
+
+            bgm.play().catch(() => {
+                console.log("브라우저가 자동재생을 차단했습니다.");
+            });
+
         });
 
 
@@ -462,15 +445,22 @@
            PLAY 버튼
         ========================= */
 
-        play.addEventListener("click", () => {
+        play.addEventListener("click", async () => {
 
+            /* 배경 블러 제거 */
             game.classList.add("started");
+
+
+            /* 자동재생이 막힌 경우를 대비해서
+               PLAY 클릭에서도 다시 재생 시도 */
 
             if (bgm.paused) {
 
-                bgm.play().catch(() => {
-                    console.log("BGM 재생 실패");
-                });
+                try {
+                    await bgm.play();
+                } catch (error) {
+                    console.log("BGM 재생 실패:", error);
+                }
 
             }
 
@@ -481,13 +471,15 @@
            음악 ON / OFF
         ========================= */
 
-        musicButton.addEventListener("click", () => {
+        musicButton.addEventListener("click", async () => {
 
             if (bgm.paused) {
 
-                bgm.play().catch(() => {
-                    console.log("BGM 재생 실패");
-                });
+                try {
+                    await bgm.play();
+                } catch (error) {
+                    console.log("BGM 재생 실패:", error);
+                }
 
             } else {
 
@@ -505,11 +497,7 @@
         bgm.addEventListener("play", () => {
 
             musicButton.textContent = "🔊";
-
-            musicButton.setAttribute(
-                "aria-label",
-                "BGM 끄기"
-            );
+            musicButton.setAttribute("aria-label", "BGM 끄기");
 
         });
 
@@ -517,11 +505,7 @@
         bgm.addEventListener("pause", () => {
 
             musicButton.textContent = "🔇";
-
-            musicButton.setAttribute(
-                "aria-label",
-                "BGM 켜기"
-            );
+            musicButton.setAttribute("aria-label", "BGM 켜기");
 
         });
 
