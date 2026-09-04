@@ -50,35 +50,6 @@
 
 
         /* =========================
-           처음에 흐리게 보이는 배경
-        ========================= */
-
-        #blur {
-            position: absolute;
-
-            top: -30px;
-            left: -30px;
-            right: -30px;
-            bottom: -30px;
-
-            background-image: url("./background.jpeg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-
-            filter: blur(18px);
-
-            transform: scale(1.05);
-
-            z-index: 2;
-
-            opacity: 1;
-
-            transition: opacity 1s ease;
-        }
-
-
-        /* =========================
            검은색 비네트
         ========================= */
 
@@ -101,10 +72,10 @@
 
 
         /* =========================
-           PLAY 버튼
+           PLAY 영역
         ========================= */
 
-        #play {
+        #playArea {
             position: absolute;
 
             top: 50%;
@@ -114,6 +85,62 @@
 
             z-index: 10;
 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            transition: opacity 0.8s ease;
+        }
+
+
+        /* =========================
+           PLAY 위 아이콘
+        ========================= */
+
+        #playIcon {
+            width: 80px;
+            height: 80px;
+
+            object-fit: contain;
+
+            margin-bottom: 18px;
+
+            display: block;
+
+            filter: none;
+            opacity: 1;
+
+            /* 아주 천천히 위아래로 움직임 */
+            animation: gentleFloat 5s ease-in-out infinite;
+        }
+
+
+        /* =========================
+           아이콘 움직임
+        ========================= */
+
+        @keyframes gentleFloat {
+
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =========================
+           PLAY 버튼
+        ========================= */
+
+        #play {
             width: 150px;
             height: 55px;
 
@@ -127,10 +154,6 @@
             letter-spacing: 4px;
 
             cursor: pointer;
-
-            transition:
-                opacity 0.8s ease,
-                background 0.2s ease;
         }
 
         #play:hover {
@@ -163,14 +186,15 @@
 
             z-index: 20;
 
-            /* 처음에는 음악바 전체를 흐리게 */
-            filter: blur(7px);
+            color: #ffffff;
 
+            /* 처음에는 음악바만 블러 */
+            filter: blur(7px);
             opacity: 0.7;
 
             transition:
-                filter 1s ease,
-                opacity 1s ease;
+                filter 0.8s ease,
+                opacity 0.8s ease;
         }
 
 
@@ -179,6 +203,8 @@
         ========================= */
 
         #songTitle {
+            display: block;
+
             color: #ffffff;
 
             font-size: 12px;
@@ -229,17 +255,11 @@
            PLAY 이후
         ========================= */
 
-        #game.started #blur {
+        #game.started #playArea {
             opacity: 0;
             pointer-events: none;
         }
 
-        #game.started #play {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* 음악바도 PLAY 후 원래대로 */
         #game.started #musicBar {
             filter: blur(0);
             opacity: 1;
@@ -268,6 +288,11 @@
             #songTitle {
                 font-size: 11px;
             }
+
+            #playIcon {
+                width: 70px;
+                height: 70px;
+            }
         }
 
     </style>
@@ -278,14 +303,26 @@
 
     <div id="game">
 
-        <!-- 흐린 배경 -->
-        <div id="blur"></div>
-
-        <!-- 비네트 -->
+        <!-- 검은 비네트 -->
         <div id="vignette"></div>
 
-        <!-- PLAY -->
-        <button id="play">PLAY</button>
+
+        <!-- =========================
+             PLAY 영역
+        ========================= -->
+
+        <div id="playArea">
+
+            <!-- 아이콘 -->
+            <img
+                id="playIcon"
+                src="./icon.jpeg"
+                alt="">
+
+            <!-- PLAY 버튼 -->
+            <button id="play">PLAY</button>
+
+        </div>
 
 
         <!-- =========================
@@ -310,7 +347,9 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -344,15 +383,17 @@
 
 
         /* =========================
-           PLAY
+           PLAY 버튼
         ========================= */
 
         play.addEventListener("click", () => {
 
-            /* 배경 선명하게 */
+            /* 아이콘 + PLAY 사라짐 */
             game.classList.add("started");
 
+
             /* 자동재생이 막혀있었다면 재생 */
+
             if (bgm.paused) {
 
                 bgm.play().catch(() => {
@@ -386,13 +427,17 @@
 
 
         /* =========================
-           아이콘 변경
+           음악 상태에 따른 아이콘
         ========================= */
 
         bgm.addEventListener("play", () => {
 
             musicButton.textContent = "🔊";
-            musicButton.setAttribute("aria-label", "BGM 끄기");
+
+            musicButton.setAttribute(
+                "aria-label",
+                "BGM 끄기"
+            );
 
         });
 
@@ -400,7 +445,11 @@
         bgm.addEventListener("pause", () => {
 
             musicButton.textContent = "🔇";
-            musicButton.setAttribute("aria-label", "BGM 켜기");
+
+            musicButton.setAttribute(
+                "aria-label",
+                "BGM 켜기"
+            );
 
         });
 
