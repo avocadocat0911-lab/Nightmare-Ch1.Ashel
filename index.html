@@ -50,6 +50,35 @@
 
 
         /* =========================
+           시작할 때 배경 블러
+        ========================= */
+
+        #blur {
+            position: absolute;
+
+            top: -30px;
+            left: -30px;
+            right: -30px;
+            bottom: -30px;
+
+            background-image: url("./background.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            filter: blur(18px);
+
+            transform: scale(1.05);
+
+            z-index: 2;
+
+            opacity: 1;
+
+            transition: opacity 0.8s ease;
+        }
+
+
+        /* =========================
            검은색 비네트
         ========================= */
 
@@ -94,24 +123,25 @@
 
 
         /* =========================
-           PLAY 위 아이콘
+           아이콘
         ========================= */
 
         #playIcon {
-            width: 80px;
-            height: 80px;
+            width: 130px;
+            height: 130px;
 
             object-fit: contain;
 
-            margin-bottom: 18px;
+            margin-bottom: 22px;
 
             display: block;
 
+            /* 아이콘은 처음부터 선명 */
             filter: none;
             opacity: 1;
 
-            /* 아주 천천히 위아래로 움직임 */
-            animation: gentleFloat 5s ease-in-out infinite;
+            /* 아주 천천히 둥실둥실 */
+            animation: gentleFloat 6s ease-in-out infinite;
         }
 
 
@@ -126,7 +156,7 @@
             }
 
             50% {
-                transform: translateY(-6px);
+                transform: translateY(-5px);
             }
 
             100% {
@@ -162,7 +192,7 @@
 
 
         /* =========================
-           하단 음악 바
+           하단 음악바
         ========================= */
 
         #musicBar {
@@ -188,8 +218,9 @@
 
             color: #ffffff;
 
-            /* 처음에는 음악바만 블러 */
+            /* 시작할 때 음악바 블러 */
             filter: blur(7px);
+
             opacity: 0.7;
 
             transition:
@@ -220,7 +251,7 @@
 
 
         /* =========================
-           음악 ON / OFF 버튼
+           음악 버튼
         ========================= */
 
         #musicButton {
@@ -252,8 +283,13 @@
 
 
         /* =========================
-           PLAY 이후
+           PLAY 누른 후
         ========================= */
+
+        #game.started #blur {
+            opacity: 0;
+            pointer-events: none;
+        }
 
         #game.started #playArea {
             opacity: 0;
@@ -290,8 +326,8 @@
             }
 
             #playIcon {
-                width: 70px;
-                height: 70px;
+                width: 110px;
+                height: 110px;
             }
         }
 
@@ -303,7 +339,15 @@
 
     <div id="game">
 
+        <!-- =========================
+             시작 시 배경 블러
+        ========================= -->
+
+        <div id="blur"></div>
+
+
         <!-- 검은 비네트 -->
+
         <div id="vignette"></div>
 
 
@@ -374,7 +418,7 @@
 
 
         /* =========================
-           사이트 입장 시 자동재생 시도
+           사이트 입장 시 자동재생
         ========================= */
 
         bgm.play().catch(() => {
@@ -388,11 +432,11 @@
 
         play.addEventListener("click", () => {
 
-            /* 아이콘 + PLAY 사라짐 */
+            /* 배경 블러 제거 */
             game.classList.add("started");
 
 
-            /* 자동재생이 막혀있었다면 재생 */
+            /* 자동재생이 막혔다면 재생 */
 
             if (bgm.paused) {
 
@@ -427,7 +471,7 @@
 
 
         /* =========================
-           음악 상태에 따른 아이콘
+           음악 아이콘 변경
         ========================= */
 
         bgm.addEventListener("play", () => {
