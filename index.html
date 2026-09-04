@@ -126,19 +126,20 @@
         ========================= */
 
         #playIcon {
-            width: 180px;
-            height: 180px;
+            width: 330px;
+            height: 130px;
 
             object-fit: contain;
 
             display: block;
 
-            margin-bottom: 18px;
+            margin-bottom: 12px;
 
             filter: none;
             opacity: 1;
 
-            animation: gentleFloat 6s ease-in-out infinite;
+            /* 조금 더 크게, 조금 더 자연스럽게 움직임 */
+            animation: gentleFloat 4.5s ease-in-out infinite;
         }
 
 
@@ -153,7 +154,7 @@
             }
 
             50% {
-                transform: translateY(-5px);
+                transform: translateY(-10px);
             }
 
             100% {
@@ -168,8 +169,8 @@
         ========================= */
 
         #play {
-            width: 150px;
-            height: 55px;
+            width: 130px;
+            height: 45px;
 
             flex-shrink: 0;
 
@@ -179,8 +180,8 @@
 
             color: white;
 
-            font-size: 18px;
-            letter-spacing: 4px;
+            font-size: 15px;
+            letter-spacing: 3px;
 
             cursor: pointer;
         }
@@ -218,7 +219,6 @@
             color: #ffffff;
 
             filter: blur(7px);
-
             opacity: 0.7;
 
             transition:
@@ -286,16 +286,19 @@
 
         #game.started #blur {
             opacity: 0;
+
             pointer-events: none;
         }
 
         #game.started #playArea {
             opacity: 0;
+
             pointer-events: none;
         }
 
         #game.started #musicBar {
             filter: blur(0);
+
             opacity: 1;
         }
 
@@ -324,10 +327,16 @@
             }
 
             #playIcon {
-                width: 160px;
-                height: 160px;
+                width: 290px;
+                height: 115px;
             }
 
+            #play {
+                width: 120px;
+                height: 42px;
+
+                font-size: 14px;
+            }
         }
 
     </style>
@@ -338,14 +347,22 @@
 
     <div id="game">
 
-        <!-- 시작할 때 배경 블러 -->
+
+        <!-- =========================
+             시작할 때 배경 블러
+        ========================= -->
+
         <div id="blur"></div>
 
+
         <!-- 비네트 -->
+
         <div id="vignette"></div>
 
 
-        <!-- PLAY 영역 -->
+        <!-- =========================
+             PLAY 영역
+        ========================= -->
 
         <div id="playArea">
 
@@ -361,7 +378,9 @@
         </div>
 
 
-        <!-- 하단 음악바 -->
+        <!-- =========================
+             하단 음악바
+        ========================= -->
 
         <div id="musicBar">
 
@@ -381,7 +400,9 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -400,26 +421,34 @@
         const musicButton = document.getElementById("musicButton");
 
 
-        /* BGM 볼륨 */
+        /* =========================
+           BGM 볼륨
+        ========================= */
 
         bgm.volume = 0.3;
 
 
-        /* 사이트 입장 시 자동재생 시도 */
+        /* =========================
+           사이트 입장 시 자동재생 시도
+        ========================= */
 
         bgm.play().catch(() => {
             console.log("자동재생이 차단되었습니다.");
         });
 
 
-        /* PLAY 버튼 */
+        /* =========================
+           PLAY 버튼
+        ========================= */
 
         play.addEventListener("click", () => {
 
             /* 배경 블러 제거 */
             game.classList.add("started");
 
-            /* 자동재생이 막혔다면 재생 */
+
+            /* 자동재생이 막혀있다면 재생 */
+
             if (bgm.paused) {
 
                 bgm.play().catch(() => {
@@ -431,7 +460,9 @@
         });
 
 
-        /* 음악 ON / OFF */
+        /* =========================
+           음악 ON / OFF
+        ========================= */
 
         musicButton.addEventListener("click", () => {
 
@@ -450,7 +481,9 @@
         });
 
 
-        /* 음악 상태에 따른 아이콘 */
+        /* =========================
+           음악 아이콘 변경
+        ========================= */
 
         bgm.addEventListener("play", () => {
 
