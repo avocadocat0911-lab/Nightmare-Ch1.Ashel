@@ -87,7 +87,6 @@
             inset: 0;
 
             z-index: 5;
-
             pointer-events: none;
 
             background: radial-gradient(
@@ -128,8 +127,8 @@
         ========================= */
 
         #playIcon {
-            width: 360px;
-            height: 130px;
+            width: 600px;
+            height: 220px;
 
             object-fit: contain;
 
@@ -155,7 +154,7 @@
             }
 
             50% {
-                transform: translateY(-9px);
+                transform: translateY(-12px);
             }
 
             100% {
@@ -182,7 +181,6 @@
             color: white;
 
             font-size: 15px;
-
             letter-spacing: 3px;
 
             cursor: pointer;
@@ -221,7 +219,6 @@
             color: #ffffff;
 
             filter: blur(7px);
-
             opacity: 0.7;
 
             transition:
@@ -242,9 +239,7 @@
             font-size: 12px;
 
             white-space: nowrap;
-
             overflow: hidden;
-
             text-overflow: ellipsis;
 
             letter-spacing: 0.5px;
@@ -276,9 +271,7 @@
             cursor: pointer;
 
             display: flex;
-
             align-items: center;
-
             justify-content: center;
         }
 
@@ -293,19 +286,16 @@
 
         #game.started #blur {
             opacity: 0;
-
             pointer-events: none;
         }
 
         #game.started #playArea {
             opacity: 0;
-
             pointer-events: none;
         }
 
         #game.started #musicBar {
             filter: blur(0);
-
             opacity: 1;
         }
 
@@ -334,8 +324,8 @@
             }
 
             #playIcon {
-                width: 340px;
-                height: 120px;
+                width: 520px;
+                height: 190px;
             }
 
             #play {
@@ -361,9 +351,7 @@
         <div id="vignette"></div>
 
 
-        <!-- =========================
-             PLAY 영역
-        ========================= -->
+        <!-- PLAY 영역 -->
 
         <div id="playArea">
 
@@ -379,9 +367,7 @@
         </div>
 
 
-        <!-- =========================
-             하단 음악바
-        ========================= -->
+        <!-- 하단 음악바 -->
 
         <div id="musicBar">
 
@@ -425,26 +411,18 @@
         bgm.volume = 0.3;
 
 
-        /* =========================
-           사이트 입장 시 자동재생
-        ========================= */
+        /* 자동재생 */
 
         bgm.play().catch(() => {
             console.log("자동재생이 차단되었습니다.");
         });
 
 
-        /* =========================
-           PLAY 버튼
-        ========================= */
+        /* PLAY 버튼 */
 
         play.addEventListener("click", () => {
 
-            /* 배경 블러 제거 */
             game.classList.add("started");
-
-
-            /* 자동재생이 막혔다면 재생 */
 
             if (bgm.paused) {
 
@@ -457,9 +435,7 @@
         });
 
 
-        /* =========================
-           음악 ON / OFF
-        ========================= */
+        /* 음악 ON / OFF */
 
         musicButton.addEventListener("click", () => {
 
@@ -478,9 +454,7 @@
         });
 
 
-        /* =========================
-           음악 아이콘 변경
-        ========================= */
+        /* 음악 아이콘 변경 */
 
         bgm.addEventListener("play", () => {
 
