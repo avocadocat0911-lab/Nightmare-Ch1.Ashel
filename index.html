@@ -134,7 +134,8 @@
 
             display: block;
 
-            margin-bottom: 8px;
+            /* 아이콘과 PLAY 버튼 사이를 아주 좁게 */
+            margin-bottom: 2px;
 
             filter: none;
             opacity: 1;
@@ -169,8 +170,8 @@
         ========================= */
 
         #play {
-            width: 130px;
-            height: 45px;
+            width: 110px;
+            height: 38px;
 
             flex-shrink: 0;
 
@@ -180,7 +181,7 @@
 
             color: white;
 
-            font-size: 15px;
+            font-size: 13px;
             letter-spacing: 3px;
 
             cursor: pointer;
@@ -219,6 +220,7 @@
             color: #ffffff;
 
             filter: blur(7px);
+
             opacity: 0.7;
 
             transition:
@@ -286,16 +288,19 @@
 
         #game.started #blur {
             opacity: 0;
+
             pointer-events: none;
         }
 
         #game.started #playArea {
             opacity: 0;
+
             pointer-events: none;
         }
 
         #game.started #musicBar {
             filter: blur(0);
+
             opacity: 1;
         }
 
@@ -329,10 +334,10 @@
             }
 
             #play {
-                width: 120px;
-                height: 42px;
+                width: 100px;
+                height: 36px;
 
-                font-size: 14px;
+                font-size: 12px;
             }
         }
 
@@ -351,7 +356,9 @@
         <div id="vignette"></div>
 
 
-        <!-- PLAY 영역 -->
+        <!-- =========================
+             PLAY 영역
+        ========================= -->
 
         <div id="playArea">
 
@@ -367,7 +374,9 @@
         </div>
 
 
-        <!-- 하단 음악바 -->
+        <!-- =========================
+             하단 음악바
+        ========================= -->
 
         <div id="musicBar">
 
@@ -387,7 +396,9 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -411,18 +422,26 @@
         bgm.volume = 0.3;
 
 
-        /* 자동재생 */
+        /* =========================
+           사이트 입장 시 자동재생
+        ========================= */
 
         bgm.play().catch(() => {
             console.log("자동재생이 차단되었습니다.");
         });
 
 
-        /* PLAY 버튼 */
+        /* =========================
+           PLAY 버튼
+        ========================= */
 
         play.addEventListener("click", () => {
 
+            /* 배경 블러 제거 */
             game.classList.add("started");
+
+
+            /* 자동재생이 막혀있다면 재생 */
 
             if (bgm.paused) {
 
@@ -435,7 +454,9 @@
         });
 
 
-        /* 음악 ON / OFF */
+        /* =========================
+           음악 ON / OFF
+        ========================= */
 
         musicButton.addEventListener("click", () => {
 
@@ -454,7 +475,9 @@
         });
 
 
-        /* 음악 아이콘 변경 */
+        /* =========================
+           음악 아이콘 변경
+        ========================= */
 
         bgm.addEventListener("play", () => {
 
