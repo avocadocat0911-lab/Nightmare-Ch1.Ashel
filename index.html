@@ -67,6 +67,7 @@
             background-repeat: no-repeat;
 
             filter: blur(18px);
+
             transform: scale(1.05);
 
             z-index: 2;
@@ -86,6 +87,7 @@
             inset: 0;
 
             z-index: 5;
+
             pointer-events: none;
 
             background: radial-gradient(
@@ -126,19 +128,19 @@
         ========================= */
 
         #playIcon {
-            width: 480px;
-            height: 190px;
+            width: 360px;
+            height: 130px;
 
             object-fit: contain;
 
             display: block;
 
-            margin-bottom: 12px;
+            margin-bottom: 8px;
 
             filter: none;
             opacity: 1;
 
-            animation: gentleFloat 4.5s ease-in-out infinite;
+            animation: gentleFloat 4s ease-in-out infinite;
         }
 
 
@@ -153,7 +155,7 @@
             }
 
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-9px);
             }
 
             100% {
@@ -180,6 +182,7 @@
             color: white;
 
             font-size: 15px;
+
             letter-spacing: 3px;
 
             cursor: pointer;
@@ -218,6 +221,7 @@
             color: #ffffff;
 
             filter: blur(7px);
+
             opacity: 0.7;
 
             transition:
@@ -238,7 +242,9 @@
             font-size: 12px;
 
             white-space: nowrap;
+
             overflow: hidden;
+
             text-overflow: ellipsis;
 
             letter-spacing: 0.5px;
@@ -270,7 +276,9 @@
             cursor: pointer;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
         }
 
@@ -325,10 +333,9 @@
                 font-size: 11px;
             }
 
-            /* 모바일 아이콘도 크게 */
             #playIcon {
-                width: 400px;
-                height: 160px;
+                width: 340px;
+                height: 120px;
             }
 
             #play {
@@ -394,9 +401,7 @@
     </div>
 
 
-    <!-- =========================
-         BGM
-    ========================= -->
+    <!-- BGM -->
 
     <audio
         id="bgm"
@@ -430,7 +435,7 @@
 
 
         /* =========================
-           PLAY
+           PLAY 버튼
         ========================= */
 
         play.addEventListener("click", () => {
