@@ -138,10 +138,13 @@
             filter: none;
             opacity: 1;
 
-            /* 아주 천천히 살짝 위아래 */
             animation: gentleFloat 6s ease-in-out infinite;
         }
 
+
+        /* =========================
+           아이콘 움직임
+        ========================= */
 
         @keyframes gentleFloat {
 
@@ -162,7 +165,6 @@
 
         /* =========================
            PLAY 버튼
-           아이콘과 무관하게 원래 크기 유지
         ========================= */
 
         #play {
@@ -215,8 +217,8 @@
 
             color: #ffffff;
 
-            /* 시작 시 블러 */
             filter: blur(7px);
+
             opacity: 0.7;
 
             transition:
@@ -321,7 +323,6 @@
                 font-size: 11px;
             }
 
-            /* 모바일에서도 아이콘 크게 */
             #playIcon {
                 width: 160px;
                 height: 160px;
@@ -337,7 +338,7 @@
 
     <div id="game">
 
-        <!-- 배경 블러 -->
+        <!-- 시작할 때 배경 블러 -->
         <div id="blur"></div>
 
         <!-- 비네트 -->
@@ -351,7 +352,7 @@
             <!-- 아이콘 -->
             <img
                 id="playIcon"
-                src="./icon.jpeg"
+                src="./icon.png"
                 alt="">
 
             <!-- PLAY 버튼 -->
@@ -404,19 +405,21 @@
         bgm.volume = 0.3;
 
 
-        /* 자동재생 시도 */
+        /* 사이트 입장 시 자동재생 시도 */
 
         bgm.play().catch(() => {
             console.log("자동재생이 차단되었습니다.");
         });
 
 
-        /* PLAY */
+        /* PLAY 버튼 */
 
         play.addEventListener("click", () => {
 
+            /* 배경 블러 제거 */
             game.classList.add("started");
 
+            /* 자동재생이 막혔다면 재생 */
             if (bgm.paused) {
 
                 bgm.play().catch(() => {
@@ -447,7 +450,7 @@
         });
 
 
-        /* 음악 아이콘 변경 */
+        /* 음악 상태에 따른 아이콘 */
 
         bgm.addEventListener("play", () => {
 
