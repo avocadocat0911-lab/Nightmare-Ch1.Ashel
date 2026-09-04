@@ -134,32 +134,33 @@
 
             display: block;
 
-            /* 아이콘과 PLAY 버튼 사이를 아주 좁게 */
             margin-bottom: 2px;
 
             filter: none;
             opacity: 1;
+
+            transform-origin: center center;
 
             animation: gentleFloat 4s ease-in-out infinite;
         }
 
 
         /* =========================
-           아이콘 움직임
+           아이콘 움직임 + 크기
         ========================= */
 
         @keyframes gentleFloat {
 
             0% {
-                transform: translateY(0);
+                transform: translateY(0) scale(1.8);
             }
 
             50% {
-                transform: translateY(-12px);
+                transform: translateY(-12px) scale(1.8);
             }
 
             100% {
-                transform: translateY(0);
+                transform: translateY(0) scale(1.8);
             }
 
         }
@@ -170,10 +171,12 @@
         ========================= */
 
         #play {
-            width: 110px;
+            width: 115px;
             height: 38px;
 
             flex-shrink: 0;
+
+            padding: 0;
 
             background: rgba(0, 0, 0, 0.85);
 
@@ -182,6 +185,7 @@
             color: white;
 
             font-size: 13px;
+
             letter-spacing: 3px;
 
             cursor: pointer;
@@ -241,7 +245,9 @@
             font-size: 12px;
 
             white-space: nowrap;
+
             overflow: hidden;
+
             text-overflow: ellipsis;
 
             letter-spacing: 0.5px;
@@ -273,7 +279,9 @@
             cursor: pointer;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
         }
 
@@ -329,12 +337,12 @@
             }
 
             #playIcon {
-                width: 520px;
-                height: 190px;
+                width: 600px;
+                height: 210px;
             }
 
             #play {
-                width: 100px;
+                width: 105px;
                 height: 36px;
 
                 font-size: 12px;
@@ -396,9 +404,7 @@
     </div>
 
 
-    <!-- =========================
-         BGM
-    ========================= -->
+    <!-- BGM -->
 
     <audio
         id="bgm"
