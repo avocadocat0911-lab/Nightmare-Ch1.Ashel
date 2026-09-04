@@ -75,26 +75,25 @@
 
         /* =========================
            검은색 비네트
-           가장자리 → 검게
-           가운데 → 비교적 밝게
         ========================= */
 
-    #vignette {
-    position: absolute;
-    inset: 0;
+        #vignette {
+            position: absolute;
+            inset: 0;
 
-    z-index: 5;
-    pointer-events: none;
+            z-index: 5;
+            pointer-events: none;
 
-    background: radial-gradient(
-        ellipse at center,
-        rgba(0, 0, 0, 0) 25%,
-        rgba(0, 0, 0, 0.15) 45%,
-        rgba(0, 0, 0, 0.45) 65%,
-        rgba(0, 0, 0, 0.75) 82%,
-        rgba(0, 0, 0, 0.95) 100%
-    );
-}
+            background: radial-gradient(
+                ellipse at center,
+                rgba(0, 0, 0, 0) 25%,
+                rgba(0, 0, 0, 0.15) 45%,
+                rgba(0, 0, 0, 0.45) 65%,
+                rgba(0, 0, 0, 0.75) 82%,
+                rgba(0, 0, 0, 0.95) 100%
+            );
+        }
+
 
         /* =========================
            PLAY 버튼
@@ -135,6 +134,87 @@
 
 
         /* =========================
+           하단 BGM 바
+        ========================= */
+
+        #musicBar {
+            position: absolute;
+
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 10px 0 14px;
+
+            background: rgba(0, 0, 0, 0.65);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+
+            z-index: 20;
+
+            color: white;
+        }
+
+
+        /* =========================
+           노래 제목
+        ========================= */
+
+        #songTitle {
+            font-size: 12px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            letter-spacing: 0.5px;
+
+            color: #ffffff;
+        }
+
+
+        /* =========================
+           음악 ON / OFF 버튼
+        ========================= */
+
+        #musicButton {
+            width: 28px;
+            height: 28px;
+
+            flex-shrink: 0;
+
+            margin-left: 12px;
+
+            border: none;
+
+            background: transparent;
+
+            color: #ffffff;
+
+            font-size: 17px;
+
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #musicButton:hover {
+            opacity: 0.7;
+        }
+
+
+        /* =========================
            PLAY 이후
         ========================= */
 
@@ -162,14 +242,26 @@
                 aspect-ratio: auto;
             }
 
+            #musicBar {
+                left: 12px;
+                right: 12px;
+                bottom: 12px;
+            }
+
+            #songTitle {
+                font-size: 11px;
+            }
         }
+
     </style>
 </head>
 
 
 <body>
 
-    <!-- 게임 화면 -->
+    <!-- =========================
+         게임 화면
+    ========================= -->
 
     <div id="game">
 
@@ -182,10 +274,29 @@
         <!-- PLAY 버튼 -->
         <button id="play">PLAY</button>
 
+
+        <!-- =========================
+             하단 음악 표시
+        ========================= -->
+
+        <div id="musicBar">
+
+            <div id="songTitle">
+                倉庫の静寂-𝐀𝐬𝐡𝐞𝐥 𝐓𝐡𝐞𝐦𝐞 𝐬𝐨𝐧𝐠
+            </div>
+
+            <button id="musicButton" aria-label="BGM 끄기">
+                🔊
+            </button>
+
+        </div>
+
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -201,6 +312,7 @@
         const game = document.getElementById("game");
         const play = document.getElementById("play");
         const bgm = document.getElementById("bgm");
+        const musicButton = document.getElementById("musicButton");
 
 
         /* BGM 볼륨 */
@@ -209,11 +321,11 @@
 
 
         /* =========================
-           사이트 입장 시 BGM 자동재생 시도
+           사이트 입장 시 자동재생 시도
         ========================= */
 
         bgm.play().catch(() => {
-            console.log("자동재생이 브라우저에 의해 차단되었습니다.");
+            console.log("자동재생이 차단되었습니다.");
         });
 
 
@@ -224,12 +336,10 @@
         play.addEventListener("click", () => {
 
             /* 흐린 배경 제거 */
-
             game.classList.add("started");
 
-
-            /* 자동재생이 막혀 있었으면
-               PLAY를 눌렀을 때 BGM 시작 */
+            /* 자동재생이 막혀 있었다면
+               PLAY를 눌렀을 때 BGM 재생 */
 
             if (bgm.paused) {
 
@@ -239,6 +349,46 @@
 
             }
 
+        });
+
+
+        /* =========================
+           음악 ON / OFF
+        ========================= */
+
+        musicButton.addEventListener("click", () => {
+
+            if (bgm.paused) {
+
+                bgm.play().catch(() => {
+                    console.log("BGM 재생 실패");
+                });
+
+                musicButton.textContent = "🔊";
+                musicButton.setAttribute("aria-label", "BGM 끄기");
+
+            } else {
+
+                bgm.pause();
+
+                musicButton.textContent = "🔇";
+                musicButton.setAttribute("aria-label", "BGM 켜기");
+
+            }
+
+        });
+
+
+        /* =========================
+           BGM 상태에 따른 아이콘
+        ========================= */
+
+        bgm.addEventListener("play", () => {
+            musicButton.textContent = "🔊";
+        });
+
+        bgm.addEventListener("pause", () => {
+            musicButton.textContent = "🔇";
         });
 
     </script>
