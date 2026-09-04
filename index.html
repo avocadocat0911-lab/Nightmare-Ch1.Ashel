@@ -67,7 +67,6 @@
             background-repeat: no-repeat;
 
             filter: blur(18px);
-
             transform: scale(1.05);
 
             z-index: 2;
@@ -75,6 +74,8 @@
             opacity: 1;
 
             transition: opacity 0.8s ease;
+
+            pointer-events: none;
         }
 
 
@@ -87,6 +88,7 @@
             inset: 0;
 
             z-index: 5;
+
             pointer-events: none;
 
             background: radial-gradient(
@@ -137,16 +139,20 @@
             margin-bottom: 2px;
 
             filter: none;
+
             opacity: 1;
 
             transform-origin: center center;
 
             animation: gentleFloat 4s ease-in-out infinite;
+
+            /* 아이콘이 클릭을 가로채지 않게 */
+            pointer-events: none;
         }
 
 
         /* =========================
-           아이콘 움직임 + 크기
+           아이콘 움직임
         ========================= */
 
         @keyframes gentleFloat {
@@ -171,6 +177,10 @@
         ========================= */
 
         #play {
+            position: relative;
+
+            z-index: 30;
+
             width: 115px;
             height: 38px;
 
@@ -189,6 +199,8 @@
             letter-spacing: 3px;
 
             cursor: pointer;
+
+            pointer-events: auto;
         }
 
         #play:hover {
@@ -296,19 +308,16 @@
 
         #game.started #blur {
             opacity: 0;
-
             pointer-events: none;
         }
 
         #game.started #playArea {
             opacity: 0;
-
             pointer-events: none;
         }
 
         #game.started #musicBar {
             filter: blur(0);
-
             opacity: 1;
         }
 
@@ -357,10 +366,16 @@
 
     <div id="game">
 
-        <!-- 시작할 때 배경 블러 -->
+
+        <!-- =========================
+             시작할 때 배경 블러
+        ========================= -->
+
         <div id="blur"></div>
 
+
         <!-- 비네트 -->
+
         <div id="vignette"></div>
 
 
@@ -377,7 +392,9 @@
                 alt="">
 
             <!-- PLAY 버튼 -->
-            <button id="play">PLAY</button>
+            <button id="play" type="button">
+                PLAY
+            </button>
 
         </div>
 
@@ -404,7 +421,9 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -423,7 +442,9 @@
         const musicButton = document.getElementById("musicButton");
 
 
-        /* BGM 볼륨 */
+        /* =========================
+           BGM 볼륨
+        ========================= */
 
         bgm.volume = 0.3;
 
@@ -443,11 +464,7 @@
 
         play.addEventListener("click", () => {
 
-            /* 배경 블러 제거 */
             game.classList.add("started");
-
-
-            /* 자동재생이 막혀있다면 재생 */
 
             if (bgm.paused) {
 
