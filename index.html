@@ -104,10 +104,10 @@
 
 
         /* ==================================================
-           캐릭터 영역
+           원래 캐릭터
         ================================================== */
 
-        #characterStage {
+        #character {
             position: absolute;
 
             left: 50%;
@@ -120,30 +120,6 @@
 
             z-index: 9;
 
-            animation: characterFloat 4.5s ease-in-out infinite;
-
-            animation-play-state: paused;
-
-            pointer-events: none;
-        }
-
-
-        /* =========================
-           원래 캐릭터
-           ★ stage 안에서 추가로 옆으로 밀리지 않게 수정
-        ========================= */
-
-        #character {
-            position: absolute;
-
-            left: 0;
-            bottom: 0;
-
-            width: 840px;
-            height: 840px;
-
-            transform: none;
-
             object-fit: contain;
             object-position: center bottom;
 
@@ -153,24 +129,31 @@
 
             pointer-events: none;
 
+            animation: characterFloat 4.5s ease-in-out infinite;
+            animation-play-state: paused;
+
+            transform-origin: center bottom;
+
             transition: filter 0.8s ease;
         }
 
 
-        /* =========================
+        /* ==================================================
            화난 캐릭터
-        ========================= */
+        ================================================== */
 
         #angryCharacter {
             position: absolute;
 
-            left: 0;
-            bottom: 0;
+            left: 50%;
+            bottom: -18px;
 
             width: 840px;
             height: 840px;
 
-            transform: none;
+            transform: translateX(-50%);
+
+            z-index: 9;
 
             object-fit: contain;
             object-position: center bottom;
@@ -180,6 +163,8 @@
             filter: blur(12px);
 
             pointer-events: none;
+
+            transform-origin: center bottom;
 
             transition: filter 0.8s ease;
         }
@@ -192,51 +177,43 @@
         @keyframes characterFloat {
 
             0% {
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
 
             50% {
-                transform: translateY(-10px);
+                transform: translateX(-50%) translateY(-10px);
             }
 
             100% {
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
 
         }
 
 
         /* =========================
-           PLAY 후 움직임 시작
-        ========================= */
-
-        #game.started #characterStage {
-            animation-play-state: running;
-
-            pointer-events: auto;
-
-            cursor: pointer;
-        }
-
-
-        /* =========================
-           PLAY 후 선명
+           PLAY 후 캐릭터 움직임
         ========================= */
 
         #game.started #character,
         #game.started #angryCharacter {
             filter: blur(0);
+
+            animation: characterFloat 4.5s ease-in-out infinite;
+            animation-play-state: running;
         }
 
 
         /* ==================================================
-           외곽선
+           캐릭터 외곽선
            PLAY 후에만
         ================================================== */
 
-        #game.started #characterStage:hover #character.activeCharacter,
-        #game.started #characterStage:hover #angryCharacter.activeCharacter {
+        #game.started #character:hover,
+        #game.started #angryCharacter:hover {
+
             animation:
+                characterFloat 4.5s ease-in-out infinite,
                 characterGlow 2.2s ease-in-out infinite;
         }
 
@@ -284,10 +261,10 @@
 
         /* ==================================================
            시작 전 그림자
-           ★ 캐릭터와 정확히 같은 위치
         ================================================== */
 
         #shadow {
+
             position: absolute;
 
             left: 50%;
@@ -298,7 +275,7 @@
 
             transform: translateX(-50%);
 
-            z-index: 12;
+            z-index: 10;
 
             pointer-events: none;
 
@@ -312,11 +289,11 @@
 
 
         /* ==================================================
-           말풍선
-           캐릭터와 별도로 고정
+           고정 말풍선
         ================================================== */
 
         #speechBalloon {
+
             position: absolute;
 
             left: 50%;
@@ -337,19 +314,14 @@
 
             pointer-events: none;
 
-            transform-origin: center center;
-
             transition:
                 opacity 0.25s ease,
                 transform 0.25s ease;
         }
 
 
-        /* =========================
-           클릭 후 말풍선
-        ========================= */
-
         #game.character-angry #speechBalloon {
+
             opacity: 1;
 
             transform:
@@ -363,6 +335,7 @@
         ================================================== */
 
         #playArea {
+
             position: absolute;
 
             top: 50%;
@@ -385,6 +358,7 @@
         ========================= */
 
         #playIcon {
+
             width: 600px;
             height: 220px;
 
@@ -433,6 +407,7 @@
         ========================= */
 
         #play {
+
             position: relative;
 
             z-index: 40;
@@ -461,16 +436,18 @@
 
 
         #play:hover {
+
             background:
                 rgba(255, 255, 255, 0.15);
         }
 
 
         /* ==================================================
-           하단 음악바
+           음악바
         ================================================== */
 
         #musicBar {
+
             position: absolute;
 
             left: 0;
@@ -513,6 +490,7 @@
         ========================= */
 
         #songTitle {
+
             display: block;
 
             color: #ffffff;
@@ -536,6 +514,7 @@
         ========================= */
 
         #musicButton {
+
             width: 30px;
             height: 30px;
 
@@ -566,23 +545,33 @@
         ================================================== */
 
         #game.started #blur {
+
             opacity: 0;
         }
 
 
+        /* 그림자 완전히 제거 */
+
         #game.started #shadow {
+
             display: none;
         }
 
 
+        /* PLAY 제거 */
+
         #game.started #playArea {
+
             opacity: 0;
 
             pointer-events: none;
         }
 
 
+        /* 음악바 선명 */
+
         #game.started #musicBar {
+
             filter: blur(0);
 
             opacity: 1;
@@ -596,6 +585,7 @@
         @media (max-width: 600px) {
 
             #game {
+
                 width: 100vw;
                 height: 100dvh;
 
@@ -603,7 +593,9 @@
             }
 
 
-            #characterStage {
+            #character,
+            #angryCharacter {
+
                 width: 660px;
                 height: 660px;
 
@@ -611,17 +603,8 @@
             }
 
 
-            #character,
-            #angryCharacter {
-                width: 660px;
-                height: 660px;
-
-                left: 0;
-                bottom: 0;
-            }
-
-
             #shadow {
+
                 width: 660px;
                 height: 660px;
 
@@ -630,6 +613,7 @@
 
 
             #speechBalloon {
+
                 width: 500px;
                 height: 160px;
 
@@ -638,6 +622,7 @@
 
 
             #musicBar {
+
                 left: 0;
                 right: 0;
                 bottom: 0;
@@ -645,17 +630,20 @@
 
 
             #songTitle {
+
                 font-size: 11px;
             }
 
 
             #playIcon {
+
                 width: 600px;
                 height: 210px;
             }
 
 
             #play {
+
                 width: 105px;
                 height: 36px;
 
@@ -675,37 +663,38 @@
 
 
         <!-- 배경 블러 -->
+
         <div id="blur"></div>
 
 
         <!-- 비네트 -->
+
         <div id="vignette"></div>
 
 
-        <!-- ==================================================
+        <!-- =========================
              캐릭터
-        ================================================== -->
+        ========================= -->
 
-        <div id="characterStage">
-
-            <img
-                id="character"
-                class="activeCharacter"
-                src="./blink.Ashel.webp"
-                alt="">
+        <img
+            id="character"
+            src="./blink.Ashel.webp"
+            alt="">
 
 
-            <img
-                id="angryCharacter"
-                src="./angry.Ashel.png"
-                alt="">
+        <!-- =========================
+             화난 캐릭터
+        ========================= -->
 
-        </div>
+        <img
+            id="angryCharacter"
+            src="./angry.Ashel.png"
+            alt="">
 
 
-        <!-- ==================================================
+        <!-- =========================
              시작 전 그림자
-        ================================================== -->
+        ========================= -->
 
         <img
             id="shadow"
@@ -713,9 +702,9 @@
             alt="">
 
 
-        <!-- ==================================================
+        <!-- =========================
              고정 말풍선
-        ================================================== -->
+        ========================= -->
 
         <img
             id="speechBalloon"
@@ -723,9 +712,9 @@
             alt="">
 
 
-        <!-- ==================================================
+        <!-- =========================
              PLAY
-        ================================================== -->
+        ========================= -->
 
         <div id="playArea">
 
@@ -746,9 +735,9 @@
         </div>
 
 
-        <!-- ==================================================
+        <!-- =========================
              음악바
-        ================================================== -->
+        ========================= -->
 
         <div id="musicBar">
 
@@ -798,9 +787,6 @@
         const musicButton =
             document.getElementById("musicButton");
 
-        const characterStage =
-            document.getElementById("characterStage");
-
         const character =
             document.getElementById("character");
 
@@ -809,15 +795,13 @@
 
 
         /* =========================
-           BGM 볼륨
+           BGM
         ========================= */
 
         bgm.volume = 0.3;
 
 
-        /* =========================
-           사이트 입장 시 자동재생
-        ========================= */
+        /* 사이트 입장 시 자동재생 */
 
         bgm.play().catch(() => {
 
@@ -860,25 +844,18 @@
         );
 
 
-        /* ==================================================
+        /* =========================
            캐릭터 클릭
-        ================================================== */
+        ========================= */
 
-        characterStage.addEventListener(
+        character.addEventListener(
             "click",
             () => {
 
+                /* PLAY 전이면 무시 */
+
                 if (
                     !game.classList.contains("started")
-                ) {
-                    return;
-                }
-
-
-                if (
-                    game.classList.contains(
-                        "character-angry"
-                    )
                 ) {
                     return;
                 }
@@ -889,26 +866,32 @@
                 character.style.display =
                     "none";
 
-                character.classList.remove(
-                    "activeCharacter"
-                );
-
 
                 /* 화난 캐릭터 표시 */
 
                 angryCharacter.style.display =
                     "block";
 
-                angryCharacter.classList.add(
-                    "activeCharacter"
-                );
 
-
-                /* 말풍선 */
+                /* 말풍선 등장 */
 
                 game.classList.add(
                     "character-angry"
                 );
+
+            }
+        );
+
+
+        /* =========================
+           화난 캐릭터 클릭 방지
+        ========================= */
+
+        angryCharacter.addEventListener(
+            "click",
+            (event) => {
+
+                event.stopPropagation();
 
             }
         );
