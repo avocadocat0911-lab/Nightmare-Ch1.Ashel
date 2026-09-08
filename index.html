@@ -120,8 +120,7 @@
 
             z-index: 9;
 
-            animation:
-                characterFloat 4.5s ease-in-out infinite;
+            animation: characterFloat 4.5s ease-in-out infinite;
 
             animation-play-state: paused;
 
@@ -131,18 +130,19 @@
 
         /* =========================
            원래 캐릭터
+           ★ stage 안에서 추가로 옆으로 밀리지 않게 수정
         ========================= */
 
         #character {
             position: absolute;
 
-            left: 50%;
+            left: 0;
             bottom: 0;
 
             width: 840px;
             height: 840px;
 
-            transform: translateX(-50%);
+            transform: none;
 
             object-fit: contain;
             object-position: center bottom;
@@ -164,13 +164,13 @@
         #angryCharacter {
             position: absolute;
 
-            left: 50%;
+            left: 0;
             bottom: 0;
 
             width: 840px;
             height: 840px;
 
-            transform: translateX(-50%);
+            transform: none;
 
             object-fit: contain;
             object-position: center bottom;
@@ -207,7 +207,7 @@
 
 
         /* =========================
-           PLAY 이후 캐릭터 움직임
+           PLAY 후 움직임 시작
         ========================= */
 
         #game.started #characterStage {
@@ -220,7 +220,7 @@
 
 
         /* =========================
-           PLAY 이후 선명
+           PLAY 후 선명
         ========================= */
 
         #game.started #character,
@@ -229,10 +229,10 @@
         }
 
 
-        /* =========================
+        /* ==================================================
            외곽선
-           PLAY 이후에만
-        ========================= */
+           PLAY 후에만
+        ================================================== */
 
         #game.started #characterStage:hover #character.activeCharacter,
         #game.started #characterStage:hover #angryCharacter.activeCharacter {
@@ -284,6 +284,7 @@
 
         /* ==================================================
            시작 전 그림자
+           ★ 캐릭터와 정확히 같은 위치
         ================================================== */
 
         #shadow {
@@ -297,7 +298,7 @@
 
             transform: translateX(-50%);
 
-            z-index: 10;
+            z-index: 12;
 
             pointer-events: none;
 
@@ -312,7 +313,7 @@
 
         /* ==================================================
            말풍선
-           화면에 고정
+           캐릭터와 별도로 고정
         ================================================== */
 
         #speechBalloon {
@@ -343,6 +344,10 @@
                 transform 0.25s ease;
         }
 
+
+        /* =========================
+           클릭 후 말풍선
+        ========================= */
 
         #game.character-angry #speechBalloon {
             opacity: 1;
@@ -437,9 +442,11 @@
 
             padding: 0;
 
-            background: rgba(0, 0, 0, 0.85);
+            background:
+                rgba(0, 0, 0, 0.85);
 
-            border: 1px solid white;
+            border:
+                1px solid white;
 
             color: white;
 
@@ -454,7 +461,8 @@
 
 
         #play:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background:
+                rgba(255, 255, 255, 0.15);
         }
 
 
@@ -472,14 +480,19 @@
             height: 42px;
 
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
 
-            padding: 0 12px 0 14px;
+            padding:
+                0 12px 0 14px;
 
-            background: rgba(0, 0, 0, 0.8);
+            background:
+                rgba(0, 0, 0, 0.8);
 
-            border-top: 1px solid rgba(255, 255, 255, 0.35);
+            border-top:
+                1px solid rgba(255,255,255,0.35);
 
             z-index: 20;
 
@@ -602,6 +615,9 @@
             #angryCharacter {
                 width: 660px;
                 height: 660px;
+
+                left: 0;
+                bottom: 0;
             }
 
 
@@ -698,7 +714,7 @@
 
 
         <!-- ==================================================
-             말풍선
+             고정 말풍선
         ================================================== -->
 
         <img
@@ -820,18 +836,8 @@
             "click",
             async () => {
 
-                /*
-                 * 배경 블러 제거
-                 * 그림자 제거
-                 * 캐릭터 선명
-                 * 움직임 시작
-                 * 음악바 선명
-                 */
-
                 game.classList.add("started");
 
-
-                /* BGM */
 
                 if (bgm.paused) {
 
@@ -862,33 +868,26 @@
             "click",
             () => {
 
-                /* PLAY 전에는 무시 */
-
                 if (
                     !game.classList.contains("started")
                 ) {
-
                     return;
-
                 }
 
-
-                /* 이미 화난 상태면 무시 */
 
                 if (
                     game.classList.contains(
                         "character-angry"
                     )
                 ) {
-
                     return;
-
                 }
 
 
                 /* 원래 캐릭터 숨김 */
 
-                character.style.display = "none";
+                character.style.display =
+                    "none";
 
                 character.classList.remove(
                     "activeCharacter"
@@ -905,7 +904,7 @@
                 );
 
 
-                /* 말풍선 등장 */
+                /* 말풍선 */
 
                 game.classList.add(
                     "character-angry"
@@ -956,7 +955,8 @@
             "play",
             () => {
 
-                musicButton.textContent = "🔊";
+                musicButton.textContent =
+                    "🔊";
 
             }
         );
@@ -966,7 +966,8 @@
             "pause",
             () => {
 
-                musicButton.textContent = "🔇";
+                musicButton.textContent =
+                    "🔇";
 
             }
         );
