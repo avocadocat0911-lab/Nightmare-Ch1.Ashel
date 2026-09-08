@@ -27,7 +27,6 @@
             overflow: hidden;
         }
 
-
         /* =========================
            게임 화면
         ========================= */
@@ -47,7 +46,6 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-
 
         /* =========================
            시작할 때 배경 블러
@@ -78,14 +76,12 @@
             transition: opacity 0.8s ease;
         }
 
-
         /* =========================
            검은색 비네트
         ========================= */
 
         #vignette {
             position: absolute;
-
             inset: 0;
 
             z-index: 5;
@@ -102,10 +98,9 @@
             );
         }
 
-
-        /* ==================================================
-           캐릭터 + 그림자 영역
-        ================================================== */
+        /* =========================
+           캐릭터
+        ========================= */
 
         #character {
             position: absolute;
@@ -113,8 +108,8 @@
             left: 50%;
             bottom: 0;
 
-            width: 680px;
-            height: 680px;
+            width: 820px;
+            height: auto;
 
             transform: translateX(-50%);
 
@@ -124,53 +119,23 @@
 
             pointer-events: auto;
 
-            animation: characterFloat 4.5s ease-in-out infinite;
+            transform-origin: center bottom;
 
+            /* 시작 전에는 정지 */
+            animation: characterFloat 4.5s ease-in-out infinite;
             animation-play-state: paused;
 
+            /* 시작 전 블러 */
             filter: blur(12px);
 
             transition: filter 0.8s ease;
         }
 
-
         /* =========================
-           시작 전 그림자
-        ========================= */
-
-        #shadow {
-            position: absolute;
-
-            left: 50%;
-            bottom: 0;
-
-            /* 캐릭터와 같은 정사각형 영역 */
-            width: 680px;
-            height: 680px;
-
-            transform: translateX(-50%);
-
-            object-fit: contain;
-
-            z-index: 8;
-
-            pointer-events: none;
-
-            /*
-             * 그림자 이미지의 흰 부분을 자연스럽게 제거
-             */
-            mix-blend-mode: multiply;
-
-            opacity: 1;
-        }
-
-
-        /* =========================
-           캐릭터 움직임
+           캐릭터 위아래 움직임
         ========================= */
 
         @keyframes characterFloat {
-
             0% {
                 transform: translateX(-50%) translateY(0);
             }
@@ -182,23 +147,20 @@
             100% {
                 transform: translateX(-50%) translateY(0);
             }
-
         }
 
-
         /* =========================
-           PLAY 이후 캐릭터 움직임 시작
+           시작 후 캐릭터 움직임
         ========================= */
 
         #game.started #character {
             filter: blur(0);
-
             animation-play-state: running;
         }
 
-
         /* =========================
-           PLAY 이후에만 외곽선 작동
+           마우스를 올렸을 때
+           PLAY 이후에만 작동
         ========================= */
 
         #game.started #character:hover {
@@ -207,9 +169,8 @@
                 characterGlow 2.2s ease-in-out infinite;
         }
 
-
         /* =========================
-           흰색 외곽선
+           흰색 외곽선 깜빡임
         ========================= */
 
         @keyframes characterGlow {
@@ -238,6 +199,31 @@
 
         }
 
+        /* =========================
+           시작 전 그림자
+        ========================= */
+
+        #shadow {
+            position: absolute;
+
+            left: 50%;
+            bottom: 0;
+
+            width: 820px;
+            height: 820px;
+
+            transform: translateX(-50%);
+
+            z-index: 8;
+
+            pointer-events: none;
+
+            object-fit: contain;
+
+            mix-blend-mode: multiply;
+
+            opacity: 1;
+        }
 
         /* =========================
            PLAY 영역
@@ -257,9 +243,8 @@
             flex-direction: column;
             align-items: center;
 
-            transition: opacity 0.4s ease;
+            transition: opacity 0.8s ease;
         }
-
 
         /* =========================
            PLAY 아이콘
@@ -276,14 +261,12 @@
             margin-bottom: 2px;
 
             filter: none;
-
             opacity: 1;
 
             pointer-events: none;
 
             animation: playIconFloat 4s ease-in-out infinite;
         }
-
 
         @keyframes playIconFloat {
 
@@ -300,7 +283,6 @@
             }
 
         }
-
 
         /* =========================
            PLAY 버튼
@@ -334,7 +316,6 @@
         #play:hover {
             background: rgba(255, 255, 255, 0.15);
         }
-
 
         /* =========================
            하단 음악바
@@ -372,7 +353,6 @@
                 opacity 0.8s ease;
         }
 
-
         /* =========================
            노래 제목
         ========================= */
@@ -395,9 +375,8 @@
             min-width: 0;
         }
 
-
         /* =========================
-           음악 버튼
+           음악 ON / OFF
         ========================= */
 
         #musicButton {
@@ -425,6 +404,9 @@
             justify-content: center;
         }
 
+        #musicButton:hover {
+            opacity: 0.7;
+        }
 
         /* =========================
            PLAY 이후
@@ -434,15 +416,10 @@
             opacity: 0;
         }
 
-
-        /*
-         * 그림자는 PLAY 누르는 순간 완전히 제거
-         * → 잔상 없음
-         */
+        /* 그림자 완전 제거 */
         #game.started #shadow {
             display: none;
         }
-
 
         #game.started #playArea {
             opacity: 0;
@@ -450,13 +427,11 @@
             pointer-events: none;
         }
 
-
         #game.started #musicBar {
             filter: blur(0);
 
             opacity: 1;
         }
-
 
         /* =========================
            모바일
@@ -472,13 +447,12 @@
             }
 
             #character {
-                width: 550px;
-                height: 550px;
+                width: 650px;
             }
 
             #shadow {
-                width: 550px;
-                height: 550px;
+                width: 650px;
+                height: 650px;
             }
 
             #musicBar {
@@ -502,50 +476,34 @@
 
                 font-size: 12px;
             }
-
         }
 
     </style>
 </head>
 
-
 <body>
 
     <div id="game">
 
-
         <!-- 배경 블러 -->
         <div id="blur"></div>
-
 
         <!-- 비네트 -->
         <div id="vignette"></div>
 
-
-        <!-- =========================
-             캐릭터
-        ========================= -->
-
+        <!-- 캐릭터 -->
         <img
             id="character"
             src="./blink.Ashel.webp"
             alt="">
 
-
-        <!-- =========================
-             시작 전 그림자
-        ========================= -->
-
+        <!-- 시작 전 그림자 -->
         <img
             id="shadow"
             src="./shadow.Ashel.png"
             alt="">
 
-
-        <!-- =========================
-             PLAY
-        ========================= -->
-
+        <!-- PLAY 영역 -->
         <div id="playArea">
 
             <img
@@ -561,11 +519,7 @@
 
         </div>
 
-
-        <!-- =========================
-             음악바
-        ========================= -->
-
+        <!-- 하단 음악바 -->
         <div id="musicBar">
 
             <span id="songTitle">
@@ -583,9 +537,7 @@
 
     </div>
 
-
     <!-- BGM -->
-
     <audio
         id="bgm"
         src="./bgm_clean.mp3"
@@ -594,7 +546,6 @@
         preload="auto">
     </audio>
 
-
     <script>
 
         const game = document.getElementById("game");
@@ -602,58 +553,32 @@
         const bgm = document.getElementById("bgm");
         const musicButton = document.getElementById("musicButton");
 
-
         /* BGM 볼륨 */
-
         bgm.volume = 0.3;
 
-
-        /* =========================
-           사이트 입장 시 자동재생
-        ========================= */
-
+        /* 사이트 입장 시 자동재생 시도 */
         bgm.play().catch(() => {
-            console.log("자동재생이 차단되었습니다.");
+            console.log("브라우저가 자동재생을 차단했습니다.");
         });
 
-
-        /* =========================
-           PLAY
-        ========================= */
-
+        /* PLAY */
         play.addEventListener("click", async () => {
 
-            /*
-             * PLAY를 누르는 순간
-             * 배경 블러 제거
-             * 그림자 완전 제거
-             * 캐릭터 선명
-             * 음악바 선명
-             * PLAY 영역 제거
-             */
-
+            /* 배경 블러 제거 */
             game.classList.add("started");
 
-
-            /* 자동재생이 막혔을 경우 재생 */
-
+            /* BGM */
             if (bgm.paused) {
-
                 try {
                     await bgm.play();
                 } catch (error) {
                     console.log("BGM 재생 실패:", error);
                 }
-
             }
 
         });
 
-
-        /* =========================
-           음악 ON / OFF
-        ========================= */
-
+        /* 음악 ON / OFF */
         musicButton.addEventListener("click", async () => {
 
             if (bgm.paused) {
@@ -672,15 +597,10 @@
 
         });
 
-
-        /* =========================
-           음악 아이콘 변경
-        ========================= */
-
+        /* 음악 아이콘 변경 */
         bgm.addEventListener("play", () => {
             musicButton.textContent = "🔊";
         });
-
 
         bgm.addEventListener("pause", () => {
             musicButton.textContent = "🔇";
