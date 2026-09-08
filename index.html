@@ -50,7 +50,7 @@
 
 
         /* =========================
-           시작 전 배경 블러
+           시작할 때 배경 블러
         ========================= */
 
         #blur {
@@ -80,16 +80,14 @@
 
 
         /* =========================
-           비네트
+           검은색 비네트
         ========================= */
 
         #vignette {
             position: absolute;
-
             inset: 0;
 
             z-index: 5;
-
             pointer-events: none;
 
             background: radial-gradient(
@@ -113,7 +111,8 @@
             left: 50%;
             bottom: 0;
 
-            width: 580px;
+            /* 캐릭터 크기 확대 */
+            width: 680px;
             height: auto;
 
             transform: translateX(-50%);
@@ -126,7 +125,7 @@
 
             transform-origin: center bottom;
 
-            /* 시작 전 캐릭터 블러 */
+            /* 시작 전 블러 */
             filter: blur(12px);
 
             transition: filter 0.8s ease;
@@ -136,10 +135,11 @@
 
 
         /* =========================
-           캐릭터 움직임
+           캐릭터 위아래 움직임
         ========================= */
 
         @keyframes characterFloat {
+
             0% {
                 transform: translateX(-50%) translateY(0);
             }
@@ -151,11 +151,12 @@
             100% {
                 transform: translateX(-50%) translateY(0);
             }
+
         }
 
 
         /* =========================
-           PLAY 이후에만 캐릭터 외곽선
+           PLAY 이후에만 외곽선 작동
         ========================= */
 
         #game.started #character:hover {
@@ -166,10 +167,11 @@
 
 
         /* =========================
-           흰색 외곽선
+           흰색 외곽선 깜빡임
         ========================= */
 
         @keyframes characterGlow {
+
             0% {
                 filter:
                     blur(0)
@@ -191,6 +193,7 @@
                     drop-shadow(0 0 0 rgba(255, 255, 255, 0))
                     drop-shadow(0 0 2px rgba(255, 255, 255, 0.15));
             }
+
         }
 
 
@@ -230,17 +233,17 @@
 
             margin-bottom: 2px;
 
-            /* 아이콘은 시작 전에도 선명 */
             filter: none;
             opacity: 1;
 
             pointer-events: none;
 
-            animation: playIconFloat 4s ease-in-out infinite;
+            animation: gentleFloat 4s ease-in-out infinite;
         }
 
 
-        @keyframes playIconFloat {
+        @keyframes gentleFloat {
+
             0% {
                 transform: translateY(0) scale(1.8);
             }
@@ -252,6 +255,7 @@
             100% {
                 transform: translateY(0) scale(1.8);
             }
+
         }
 
 
@@ -350,7 +354,7 @@
 
 
         /* =========================
-           음악 버튼
+           음악 ON / OFF
         ========================= */
 
         #musicButton {
@@ -378,9 +382,13 @@
             justify-content: center;
         }
 
+        #musicButton:hover {
+            opacity: 0.7;
+        }
+
 
         /* =========================
-           PLAY 누른 후
+           PLAY 이후
         ========================= */
 
         #game.started #blur {
@@ -411,11 +419,12 @@
             #game {
                 width: 100vw;
                 height: 100dvh;
+
                 aspect-ratio: auto;
             }
 
             #character {
-                width: 470px;
+                width: 550px;
                 bottom: 0;
             }
 
@@ -450,30 +459,35 @@
 
     <div id="game">
 
-        <!-- 시작 전 배경 블러 -->
+
+        <!-- 시작할 때 배경 블러 -->
         <div id="blur"></div>
 
         <!-- 비네트 -->
         <div id="vignette"></div>
 
 
-        <!-- 캐릭터 -->
+        <!-- =========================
+             캐릭터
+        ========================= -->
+
         <img
             id="character"
             src="./blink.Ashel.webp"
             alt="">
 
 
-        <!-- PLAY 영역 -->
+        <!-- =========================
+             PLAY 영역
+        ========================= -->
+
         <div id="playArea">
 
-            <!-- 선명한 아이콘 -->
             <img
                 id="playIcon"
                 src="./icon.png"
                 alt="">
 
-            <!-- 선명한 PLAY -->
             <button
                 id="play"
                 type="button">
@@ -483,7 +497,10 @@
         </div>
 
 
-        <!-- 하단 음악바 -->
+        <!-- =========================
+             하단 음악바
+        ========================= -->
+
         <div id="musicBar">
 
             <span id="songTitle">
@@ -502,7 +519,10 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
+
     <audio
         id="bgm"
         src="./bgm_clean.mp3"
@@ -521,41 +541,46 @@
 
 
         /* BGM 볼륨 */
+
         bgm.volume = 0.3;
 
 
-        /* 사이트 들어오자마자 BGM 재생 시도 */
+        /* =========================
+           사이트 입장 시 자동재생
+        ========================= */
+
         bgm.play().catch(() => {
             console.log("자동재생이 차단되었습니다.");
         });
 
 
-        /* PLAY */
+        /* =========================
+           PLAY
+        ========================= */
+
         play.addEventListener("click", async () => {
 
-            /*
-             * 배경 블러 제거
-             * 캐릭터 블러 제거
-             * 음악바 블러 제거
-             * 아이콘 + PLAY 숨김
-             */
+            /* 블러 제거 */
             game.classList.add("started");
 
-
-            /* 자동재생이 막혀 있었다면
-               PLAY를 누른 순간 재생 */
+            /* 음악 재생 */
             if (bgm.paused) {
+
                 try {
                     await bgm.play();
                 } catch (error) {
                     console.log("BGM 재생 실패:", error);
                 }
+
             }
 
         });
 
 
-        /* 음악 ON / OFF */
+        /* =========================
+           음악 ON / OFF
+        ========================= */
+
         musicButton.addEventListener("click", async () => {
 
             if (bgm.paused) {
@@ -575,13 +600,21 @@
         });
 
 
-        /* 아이콘 변경 */
+        /* =========================
+           음악 아이콘 변경
+        ========================= */
+
         bgm.addEventListener("play", () => {
+
             musicButton.textContent = "🔊";
+
         });
 
+
         bgm.addEventListener("pause", () => {
+
             musicButton.textContent = "🔇";
+
         });
 
     </script>
