@@ -51,7 +51,7 @@
 
 
         /* =========================
-           시작 전 배경 블러
+           시작할 때 배경 블러
         ========================= */
 
         #blur {
@@ -104,7 +104,7 @@
 
 
         /* ==================================================
-           캐릭터 전체 영역
+           캐릭터 영역
         ================================================== */
 
         #characterStage {
@@ -118,11 +118,7 @@
 
             transform: translateX(-50%);
 
-            /*
-             * 그림자보다 위
-             * 말풍선도 캐릭터 위에 표시
-             */
-            z-index: 9;
+            z-index: 7;
 
             animation: characterFloat 4.5s ease-in-out infinite;
             animation-play-state: paused;
@@ -151,9 +147,10 @@
 
             filter: blur(12px);
 
-            pointer-events: none;
+            transition: filter 0.8s ease,
+                        opacity 0.15s ease;
 
-            transition: filter 0.8s ease;
+            pointer-events: none;
         }
 
 
@@ -177,28 +174,28 @@
 
             filter: blur(12px);
 
-            pointer-events: none;
-
             transition: filter 0.8s ease;
+
+            pointer-events: none;
         }
 
 
         /* =========================
-           캐릭터 위아래 움직임
+           캐릭터 움직임
         ========================= */
 
         @keyframes characterFloat {
 
             0% {
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
 
             50% {
-                transform: translateY(-10px);
+                transform: translateX(-50%) translateY(-10px);
             }
 
             100% {
-                transform: translateY(0);
+                transform: translateX(-50%) translateY(0);
             }
 
         }
@@ -210,14 +207,11 @@
 
         #game.started #characterStage {
             animation-play-state: running;
-
-            pointer-events: auto;
-            cursor: pointer;
         }
 
 
         /* =========================
-           캐릭터 선명하게
+           PLAY 후 캐릭터 선명
         ========================= */
 
         #game.started #character,
@@ -226,20 +220,22 @@
         }
 
 
-        /* ==================================================
-           마우스 올렸을 때 외곽선
-           PLAY 이후에만
-        ================================================== */
+        /* =========================
+           캐릭터 클릭 가능
+        ========================= */
+
+        #game.started #characterStage {
+            pointer-events: auto;
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           시작 후 마우스 오버
+        ========================= */
 
         #game.started #characterStage:hover #character.activeCharacter,
         #game.started #characterStage:hover #angryCharacter.activeCharacter {
-
-            filter:
-                blur(0)
-                drop-shadow(0 0 2px rgba(255,255,255,1))
-                drop-shadow(0 0 8px rgba(255,255,255,0.8))
-                drop-shadow(0 0 14px rgba(255,255,255,0.4));
-
             animation: characterGlow 2.2s ease-in-out infinite;
         }
 
@@ -290,10 +286,6 @@
 
             transform: translateX(-50%);
 
-            /*
-             * 캐릭터보다 아래,
-             * PLAY보다 아래
-             */
             z-index: 8;
 
             pointer-events: none;
@@ -303,8 +295,45 @@
             mix-blend-mode: multiply;
 
             opacity: 1;
+        }
 
-            transition: opacity 0.1s ease;
+
+        /* ==================================================
+           말풍선
+        ================================================== */
+
+        #speechBalloon {
+            position: absolute;
+
+            left: 50%;
+            top: 55px;
+
+            width: 560px;
+            height: auto;
+
+            transform: translateX(-50%) scale(0.85);
+
+            z-index: 9;
+
+            object-fit: contain;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transform-origin: center bottom;
+
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        /* 말풍선 등장 */
+        #game.character-angry #speechBalloon {
+            opacity: 1;
+
+            transform: translateX(-50%) scale(1);
         }
 
 
@@ -326,7 +355,7 @@
             flex-direction: column;
             align-items: center;
 
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
         }
 
 
@@ -398,56 +427,6 @@
             cursor: pointer;
 
             pointer-events: auto;
-        }
-
-        #play:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-
-        /* ==================================================
-           말풍선
-        ================================================== */
-
-        #speechBalloon {
-            position: absolute;
-
-            left: 50%;
-
-            /*
-             * 캐릭터 머리 위
-             */
-            top: -175px;
-
-            width: 520px;
-            height: 170px;
-
-            transform: translateX(-50%) scale(0.9);
-
-            z-index: 20;
-
-            object-fit: contain;
-
-            opacity: 0;
-
-            pointer-events: none;
-
-            transform-origin: center bottom;
-
-            transition:
-                opacity 0.25s ease,
-                transform 0.25s ease;
-        }
-
-
-        /* =========================
-           클릭하면 말풍선 등장
-        ========================= */
-
-        #game.character-angry #speechBalloon {
-            opacity: 1;
-
-            transform: translateX(-50%) scale(1);
         }
 
 
@@ -549,23 +528,15 @@
             opacity: 0;
         }
 
-
-        /*
-         * 그림자는 PLAY를 누르는 즉시 완전히 제거
-         */
         #game.started #shadow {
             display: none;
         }
 
-
-        /* PLAY 아이콘 + 버튼 제거 */
         #game.started #playArea {
             opacity: 0;
             pointer-events: none;
         }
 
-
-        /* 음악바 선명 */
         #game.started #musicBar {
             filter: blur(0);
             opacity: 1;
@@ -581,30 +552,23 @@
             #game {
                 width: 100vw;
                 height: 100dvh;
-
                 aspect-ratio: auto;
             }
-
 
             #characterStage {
                 width: 700px;
                 height: 700px;
             }
 
-
             #shadow {
                 width: 700px;
                 height: 700px;
             }
 
-
             #speechBalloon {
-                width: 440px;
-                height: 145px;
-
-                top: -125px;
+                width: 450px;
+                top: 50px;
             }
-
 
             #musicBar {
                 left: 0;
@@ -612,29 +576,23 @@
                 bottom: 0;
             }
 
-
             #songTitle {
                 font-size: 11px;
             }
-
 
             #playIcon {
                 width: 600px;
                 height: 210px;
             }
 
-
             #play {
                 width: 105px;
                 height: 36px;
-
                 font-size: 12px;
             }
-
         }
 
     </style>
-
 </head>
 
 
@@ -655,9 +613,9 @@
         <div id="vignette"></div>
 
 
-        <!-- ==================================================
-             캐릭터
-        ================================================== -->
+        <!-- =========================
+             캐릭터 영역
+        ========================= -->
 
         <div id="characterStage">
 
@@ -686,12 +644,13 @@
                 src="./speech.balloon.png"
                 alt="">
 
+
         </div>
 
 
-        <!-- ==================================================
+        <!-- =========================
              시작 전 그림자
-        ================================================== -->
+        ========================= -->
 
         <img
             id="shadow"
@@ -699,9 +658,9 @@
             alt="">
 
 
-        <!-- ==================================================
+        <!-- =========================
              PLAY
-        ================================================== -->
+        ========================= -->
 
         <div id="playArea">
 
@@ -720,9 +679,9 @@
         </div>
 
 
-        <!-- ==================================================
+        <!-- =========================
              음악바
-        ================================================== -->
+        ========================= -->
 
         <div id="musicBar">
 
@@ -743,7 +702,9 @@
     </div>
 
 
-    <!-- BGM -->
+    <!-- =========================
+         BGM
+    ========================= -->
 
     <audio
         id="bgm"
@@ -756,14 +717,11 @@
 
     <script>
 
-        const game =
-            document.getElementById("game");
+        const game = document.getElementById("game");
 
-        const play =
-            document.getElementById("play");
+        const play = document.getElementById("play");
 
-        const bgm =
-            document.getElementById("bgm");
+        const bgm = document.getElementById("bgm");
 
         const musicButton =
             document.getElementById("musicButton");
@@ -788,9 +746,7 @@
         /* 사이트 입장 시 자동재생 */
 
         bgm.play().catch(() => {
-            console.log(
-                "브라우저가 자동재생을 차단했습니다."
-            );
+            console.log("자동재생이 차단되었습니다.");
         });
 
 
@@ -798,102 +754,71 @@
            PLAY
         ========================= */
 
-        play.addEventListener(
-            "click",
-            async () => {
+        play.addEventListener("click", async () => {
 
-                /*
-                 * 시작
-                 * 배경 블러 제거
-                 * 그림자 제거
-                 * 캐릭터 블러 제거
-                 * 캐릭터 움직임 시작
-                 * 음악바 블러 제거
-                 */
-
-                game.classList.add("started");
+            /* 게임 시작 */
+            game.classList.add("started");
 
 
-                /* BGM */
+            /* BGM 재생 */
 
-                if (bgm.paused) {
+            if (bgm.paused) {
 
-                    try {
-                        await bgm.play();
-                    } catch (error) {
-                        console.log(
-                            "BGM 재생 실패:",
-                            error
-                        );
-                    }
-
+                try {
+                    await bgm.play();
+                } catch (error) {
+                    console.log(
+                        "BGM 재생 실패:",
+                        error
+                    );
                 }
 
             }
-        );
+
+        });
 
 
         /* ==================================================
            캐릭터 클릭
         ================================================== */
 
-        characterStage.addEventListener(
-            "click",
-            () => {
+        characterStage.addEventListener("click", () => {
 
-                /* PLAY 전에는 아무 반응 없음 */
+            /* 아직 시작하지 않았다면 무시 */
 
-                if (
-                    !game.classList.contains("started")
-                ) {
-                    return;
-                }
-
-
-                /* 이미 화난 상태라면 무시 */
-
-                if (
-                    game.classList.contains(
-                        "character-angry"
-                    )
-                ) {
-                    return;
-                }
-
-
-                /* =========================
-                   원래 캐릭터 숨김
-                ========================= */
-
-                character.style.display = "none";
-
-                character.classList.remove(
-                    "activeCharacter"
-                );
-
-
-                /* =========================
-                   화난 캐릭터 표시
-                ========================= */
-
-                angryCharacter.style.display =
-                    "block";
-
-                angryCharacter.classList.add(
-                    "activeCharacter"
-                );
-
-
-                /* =========================
-                   말풍선 표시
-                ========================= */
-
-                game.classList.add(
-                    "character-angry"
-                );
-
+            if (!game.classList.contains("started")) {
+                return;
             }
-        );
+
+
+            /* 이미 화난 상태라면 무시 */
+
+            if (game.classList.contains("character-angry")) {
+                return;
+            }
+
+
+            /* =========================
+               캐릭터 교체
+            ========================= */
+
+            character.classList.remove("activeCharacter");
+
+            character.style.display = "none";
+
+
+            angryCharacter.style.display = "block";
+
+            angryCharacter.classList.add("activeCharacter");
+
+
+            /* =========================
+               말풍선 등장
+            ========================= */
+
+            game.classList.add("character-angry");
+
+        });
 
 
         /* =========================
@@ -929,20 +854,18 @@
            음악 아이콘
         ========================= */
 
-        bgm.addEventListener(
-            "play",
-            () => {
-                musicButton.textContent = "🔊";
-            }
-        );
+        bgm.addEventListener("play", () => {
+
+            musicButton.textContent = "🔊";
+
+        });
 
 
-        bgm.addEventListener(
-            "pause",
-            () => {
-                musicButton.textContent = "🔇";
-            }
-        );
+        bgm.addEventListener("pause", () => {
+
+            musicButton.textContent = "🔇";
+
+        });
 
     </script>
 
