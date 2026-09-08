@@ -68,7 +68,6 @@
             background-repeat: no-repeat;
 
             filter: blur(18px);
-
             transform: scale(1.08);
 
             z-index: 2;
@@ -87,7 +86,6 @@
 
         #vignette {
             position: absolute;
-
             inset: 0;
 
             z-index: 5;
@@ -110,11 +108,10 @@
         ================================================== */
 
         #characterStage {
-
             position: absolute;
 
             left: 50%;
-            bottom: 0;
+            bottom: -18px;
 
             width: 840px;
             height: 840px;
@@ -137,7 +134,6 @@
         ========================= */
 
         #character {
-
             position: absolute;
 
             left: 50%;
@@ -166,7 +162,6 @@
         ========================= */
 
         #angryCharacter {
-
             position: absolute;
 
             left: 50%;
@@ -197,29 +192,25 @@
         @keyframes characterFloat {
 
             0% {
-                transform:
-                    translateY(0);
+                transform: translateY(0);
             }
 
             50% {
-                transform:
-                    translateY(-10px);
+                transform: translateY(-10px);
             }
 
             100% {
-                transform:
-                    translateY(0);
+                transform: translateY(0);
             }
 
         }
 
 
         /* =========================
-           PLAY 후 캐릭터 움직임
+           PLAY 이후 캐릭터 움직임
         ========================= */
 
         #game.started #characterStage {
-
             animation-play-state: running;
 
             pointer-events: auto;
@@ -229,28 +220,24 @@
 
 
         /* =========================
-           PLAY 후 선명
+           PLAY 이후 선명
         ========================= */
 
         #game.started #character,
         #game.started #angryCharacter {
-
             filter: blur(0);
         }
 
 
-        /* ==================================================
-           캐릭터 외곽선
+        /* =========================
+           외곽선
            PLAY 이후에만
-        ================================================== */
+        ========================= */
 
-        #game.started #characterStage:hover
-        #character.activeCharacter,
-
-        #game.started #characterStage:hover
-        #angryCharacter.activeCharacter {
-
-            animation: characterGlow 2.2s ease-in-out infinite;
+        #game.started #characterStage:hover #character.activeCharacter,
+        #game.started #characterStage:hover #angryCharacter.activeCharacter {
+            animation:
+                characterGlow 2.2s ease-in-out infinite;
         }
 
 
@@ -296,23 +283,21 @@
 
 
         /* ==================================================
-           그림자
-           ★ 캐릭터 위에 덮이도록 설정
+           시작 전 그림자
         ================================================== */
 
         #shadow {
-
             position: absolute;
 
             left: 50%;
-            bottom: 0;
+            bottom: -18px;
 
             width: 840px;
             height: 840px;
 
             transform: translateX(-50%);
 
-            z-index: 12;
+            z-index: 10;
 
             pointer-events: none;
 
@@ -322,23 +307,18 @@
             mix-blend-mode: multiply;
 
             opacity: 1;
-
-            transition: opacity 0.05s ease;
         }
 
 
         /* ==================================================
            말풍선
-           ★ 캐릭터와 분리되어 고정
+           화면에 고정
         ================================================== */
 
         #speechBalloon {
-
             position: absolute;
 
             left: 50%;
-
-            /* 머리 바로 위 */
             top: 105px;
 
             width: 600px;
@@ -364,12 +344,7 @@
         }
 
 
-        /* =========================
-           클릭 후 말풍선
-        ========================= */
-
         #game.character-angry #speechBalloon {
-
             opacity: 1;
 
             transform:
@@ -383,25 +358,20 @@
         ================================================== */
 
         #playArea {
-
             position: absolute;
 
             top: 50%;
             left: 50%;
 
-            transform:
-                translate(-50%, -50%);
+            transform: translate(-50%, -50%);
 
             z-index: 30;
 
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
 
-            transition:
-                opacity 0.5s ease;
+            transition: opacity 0.5s ease;
         }
 
 
@@ -410,7 +380,6 @@
         ========================= */
 
         #playIcon {
-
             width: 600px;
             height: 220px;
 
@@ -459,7 +428,6 @@
         ========================= */
 
         #play {
-
             position: relative;
 
             z-index: 40;
@@ -469,11 +437,9 @@
 
             padding: 0;
 
-            background:
-                rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.85);
 
-            border:
-                1px solid white;
+            border: 1px solid white;
 
             color: white;
 
@@ -488,18 +454,15 @@
 
 
         #play:hover {
-
-            background:
-                rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15);
         }
 
 
         /* ==================================================
-           음악바
+           하단 음악바
         ================================================== */
 
         #musicBar {
-
             position: absolute;
 
             left: 0;
@@ -509,19 +472,14 @@
             height: 42px;
 
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
 
-            padding:
-                0 12px 0 14px;
+            padding: 0 12px 0 14px;
 
-            background:
-                rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.8);
 
-            border-top:
-                1px solid rgba(255,255,255,0.35);
+            border-top: 1px solid rgba(255, 255, 255, 0.35);
 
             z-index: 20;
 
@@ -542,7 +500,6 @@
         ========================= */
 
         #songTitle {
-
             display: block;
 
             color: #ffffff;
@@ -566,7 +523,6 @@
         ========================= */
 
         #musicButton {
-
             width: 30px;
             height: 30px;
 
@@ -601,24 +557,19 @@
         }
 
 
-        /* ★ 그림자 완전히 제거 */
         #game.started #shadow {
             display: none;
         }
 
 
-        /* PLAY 영역 제거 */
         #game.started #playArea {
-
             opacity: 0;
 
             pointer-events: none;
         }
 
 
-        /* 음악바 선명 */
         #game.started #musicBar {
-
             filter: blur(0);
 
             opacity: 1;
@@ -632,9 +583,7 @@
         @media (max-width: 600px) {
 
             #game {
-
                 width: 100vw;
-
                 height: 100dvh;
 
                 aspect-ratio: auto;
@@ -642,34 +591,30 @@
 
 
             #characterStage {
-
                 width: 660px;
-
                 height: 660px;
+
+                bottom: -14px;
             }
 
 
             #character,
             #angryCharacter {
-
                 width: 660px;
-
                 height: 660px;
             }
 
 
             #shadow {
-
                 width: 660px;
-
                 height: 660px;
+
+                bottom: -14px;
             }
 
 
             #speechBalloon {
-
                 width: 500px;
-
                 height: 160px;
 
                 top: 80px;
@@ -677,33 +622,25 @@
 
 
             #musicBar {
-
                 left: 0;
-
                 right: 0;
-
                 bottom: 0;
             }
 
 
             #songTitle {
-
                 font-size: 11px;
             }
 
 
             #playIcon {
-
                 width: 600px;
-
                 height: 210px;
             }
 
 
             #play {
-
                 width: 105px;
-
                 height: 36px;
 
                 font-size: 12px;
@@ -722,12 +659,10 @@
 
 
         <!-- 배경 블러 -->
-
         <div id="blur"></div>
 
 
         <!-- 비네트 -->
-
         <div id="vignette"></div>
 
 
@@ -753,8 +688,7 @@
 
 
         <!-- ==================================================
-             그림자
-             캐릭터 위에 덮임
+             시작 전 그림자
         ================================================== -->
 
         <img
@@ -765,7 +699,6 @@
 
         <!-- ==================================================
              말풍선
-             머리 위에 고정
         ================================================== -->
 
         <img
@@ -779,7 +712,6 @@
         ================================================== -->
 
         <div id="playArea">
-
 
             <img
                 id="playIcon"
@@ -803,7 +735,6 @@
         ================================================== -->
 
         <div id="musicBar">
-
 
             <span id="songTitle">
 
@@ -869,7 +800,7 @@
 
 
         /* =========================
-           자동재생
+           사이트 입장 시 자동재생
         ========================= */
 
         bgm.play().catch(() => {
@@ -893,7 +824,7 @@
                  * 배경 블러 제거
                  * 그림자 제거
                  * 캐릭터 선명
-                 * 캐릭터 움직임 시작
+                 * 움직임 시작
                  * 음악바 선명
                  */
 
@@ -957,8 +888,7 @@
 
                 /* 원래 캐릭터 숨김 */
 
-                character.style.display =
-                    "none";
+                character.style.display = "none";
 
                 character.classList.remove(
                     "activeCharacter"
