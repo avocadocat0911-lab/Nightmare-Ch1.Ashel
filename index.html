@@ -127,6 +127,9 @@
 
             filter: blur(12px);
 
+            /*
+             * 캐릭터 클릭 가능
+             */
             pointer-events: auto;
 
             cursor: default;
@@ -288,6 +291,9 @@
 
             transform: translateX(-50%);
 
+            /*
+             * 캐릭터 위에 덮이지만 클릭을 방해하지 않음
+             */
             z-index: 10;
 
             pointer-events: none;
@@ -311,9 +317,10 @@
 
             left: 50%;
 
-            /* 조금 더 아래 */
-            top: -90px;
+            /* ★ 말풍선을 아주 조금 아래로 */
+            top: -100px;
 
+            /* 현재 크기 그대로 */
             width: 560px;
             height: 420px;
 
@@ -634,7 +641,8 @@
                 width: 470px;
                 height: 350px;
 
-                top: -80px;
+                /* 데스크톱과 같은 방향으로 조금 아래 */
+                top: -90px;
             }
 
 
