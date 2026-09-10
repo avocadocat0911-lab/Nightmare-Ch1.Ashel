@@ -127,9 +127,6 @@
 
             filter: blur(12px);
 
-            /*
-             * 캐릭터 클릭 가능
-             */
             pointer-events: auto;
 
             cursor: default;
@@ -291,9 +288,6 @@
 
             transform: translateX(-50%);
 
-            /*
-             * 캐릭터 위에 덮이지만 클릭을 방해하지 않음
-             */
             z-index: 10;
 
             pointer-events: none;
@@ -317,12 +311,12 @@
 
             left: 50%;
 
-            /* 조금 더 위 */
-            top: 40px;
+            /* Y축으로 조금 더 위 */
+            top: 35px;
 
             /* 살짝 작게 */
-            width: 700px;
-            height: 700px;
+            width: 650px;
+            height: 650px;
 
             transform:
                 translateX(-50%)
@@ -640,11 +634,10 @@
 
             #speechBalloon {
 
-                width: 570px;
+                width: 550px;
+                height: 550px;
 
-                height: 570px;
-
-                top: 55px;
+                top: 45px;
             }
 
 
@@ -796,9 +789,7 @@
     </div>
 
 
-    <!-- =========================
-         BGM
-    ========================= -->
+    <!-- BGM -->
 
     <audio
         id="bgm"
