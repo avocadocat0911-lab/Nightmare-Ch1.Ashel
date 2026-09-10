@@ -311,10 +311,9 @@
 
             left: 50%;
 
-            /* 조금 더 위로 */
-            top: -125px;
+            /* 조금 더 아래 */
+            top: -90px;
 
-            /* 가로로 조금 더 길고 납작하게 */
             width: 560px;
             height: 420px;
 
@@ -577,7 +576,6 @@
         /* PLAY 제거 */
 
         #game.started #playArea {
-
             opacity: 0;
 
             pointer-events: none;
@@ -636,7 +634,7 @@
                 width: 470px;
                 height: 350px;
 
-                top: -115px;
+                top: -80px;
             }
 
 
@@ -754,7 +752,9 @@
         <div id="musicBar">
 
             <span id="songTitle">
+
                 倉庫の静寂-𝐀𝐬𝐡𝐞𝐥 𝐓𝐡𝐞𝐦𝐞 𝐬𝐨𝐧𝐠
+
             </span>
 
 
@@ -862,6 +862,8 @@
             "click",
             () => {
 
+                /* PLAY 전에는 클릭 무시 */
+
                 if (
                     !game.classList.contains("started")
                 ) {
@@ -870,6 +872,8 @@
 
                 }
 
+
+                /* 이미 화난 상태면 무시 */
 
                 if (
                     game.classList.contains(
