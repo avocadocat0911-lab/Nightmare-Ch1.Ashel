@@ -127,9 +127,6 @@
 
             filter: blur(12px);
 
-            /*
-             * 캐릭터 클릭 가능
-             */
             pointer-events: auto;
 
             cursor: default;
@@ -291,9 +288,6 @@
 
             transform: translateX(-50%);
 
-            /*
-             * 캐릭터 위에 덮이지만 클릭을 방해하지 않음
-             */
             z-index: 10;
 
             pointer-events: none;
@@ -317,10 +311,10 @@
 
             left: 50%;
 
-            /* ★ 말풍선을 아주 조금 아래로 */
-            top: -100px;
+            /* ★ 표시한 위치만큼 아래로 */
+            top: -55px;
 
-            /* 현재 크기 그대로 */
+            /* 크기는 그대로 */
             width: 560px;
             height: 420px;
 
@@ -573,14 +567,10 @@
         }
 
 
-        /* 그림자는 완전히 제거 */
-
         #game.started #shadow {
             display: none;
         }
 
-
-        /* PLAY 제거 */
 
         #game.started #playArea {
             opacity: 0;
@@ -588,8 +578,6 @@
             pointer-events: none;
         }
 
-
-        /* 음악바 선명 */
 
         #game.started #musicBar {
 
@@ -641,8 +629,7 @@
                 width: 470px;
                 height: 350px;
 
-                /* 데스크톱과 같은 방향으로 조금 아래 */
-                top: -90px;
+                top: -45px;
             }
 
 
